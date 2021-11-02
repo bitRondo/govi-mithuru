@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ගොවි මිතුරු</string>
+    <string name="placeholder_nic">ජාතික හැඳුනුම්පත් අංකය</string>
+    <string name="btnText_login">පිවිසෙන්න</string>
+    <string name="btnText_register">නව ගිණුමක් සාදන්න</string>
+    <string name="app_title_govi">ගොවි</string>
+    <string name="app_title_mithuru">මිතුරු</string>
+    <string name="placeholder_agriOfficerNo">කෘෂි කිලධාරී ලි.ප. අංකය</string>
+    <string name="btnText_submit">යොමුකරන්න</string>
+    <string name="placeholder_farmerNo">ගොවි ලි.ප. අංකය</string>
+    <string name="txt_Welcome">ආයුබෝවන්!</string>
+    <string name="txt_submit_evidence">සාක්ෂි යොදන්න</string>
+    <string name="placeholder_evidence_desc">මෙම සාක්ෂිය ගැන විස්තරය</string>
+    <string name="btnText_remove_evidence">ඉවත් කරන්න</string>
+</resources>

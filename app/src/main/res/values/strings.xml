@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Govi Mithuru</string>
+    <string name="placeholder_nic">NIC number</string>
+    <string name="placeholder_agriOfficerNo">Agri Officer Reg. No.</string>
+    <string name="btnText_login">Login</string>
+    <string name="btnText_register">Register New Account</string>
+    <string name="locale_selector_EN" translatable="false">EN</string>
+    <string name="locale_selector_SI" translatable="false">සිං</string>
+    <string name="app_title_govi">Govi</string>
+    <string name="app_title_mithuru">Mithuru</string>
+    <string name="btnText_submit">Submit</string>
+    <string name="placeholder_farmerNo">Farmer Reg. No.</string>
+    <string name="txt_Welcome">Welcome!</string>
+    <string name="settings_button_desc" translatable="false">PREFERENCES</string>
+    <string name="txt_submit_evidence">Submit Evidence</string>
+    <string name="image_content_desc" translatable="false">EVIDENCE</string>
+    <string name="camera_content_desc" translatable="false">CAMERA_ICON</string>
+    <string name="placeholder_evidence_desc">Description about this evidence</string>
+    <string name="btnText_remove_evidence">Remove</string>
+    <string name="next_button_desc" translatable="false">NEXT_EVIDENCE</string>
+    <string name="prev_button_desc" translatable="false">PREVIOUS_EVIDENCE</string>
+</resources>

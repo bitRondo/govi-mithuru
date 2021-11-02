@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".accountManagement.WelcomeActivity">
+
+    <TextView
+        android:id="@+id/TX_welcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_2"
+        android:layout_marginLeft="@dimen/margin_2"
+        android:layout_marginTop="@dimen/margin_2"
+        android:text="@string/txt_Welcome"
+        android:textColor="@color/app_color_1"
+        android:textSize="@dimen/page_title_text_size"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/TX_nicTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_2"
+        android:layout_marginLeft="@dimen/margin_2"
+        android:layout_marginTop="@dimen/margin_3"
+        android:text="Your NIC:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TX_welcome" />
+
+    <TextView
+        android:id="@+id/TX_nicVal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_2"
+        android:layout_marginLeft="@dimen/margin_2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TX_nicTitle" />
+
+    <TextView
+        android:id="@+id/TX_regNoTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_2"
+        android:layout_marginLeft="@dimen/margin_2"
+        android:layout_marginTop="@dimen/margin_2"
+        android:text="Your Reg. No. :"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TX_nicVal" />
+
+    <TextView
+        android:id="@+id/TX_regNoVal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_2"
+        android:layout_marginLeft="@dimen/margin_2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TX_regNoTitle" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="32dp"
+        android:onClick="goToEvidenceSubmission"
+        android:text="@string/txt_submit_evidence"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TX_regNoTitle" />
+</androidx.constraintlayout.widget.ConstraintLayout>
