@@ -19,4 +19,5 @@
     <string name="btnText_remove_evidence">Remove</string>
     <string name="next_button_desc" translatable="false">NEXT_EVIDENCE</string>
     <string name="prev_button_desc" translatable="false">PREVIOUS_EVIDENCE</string>
+    <string name="txt_new_claim">New Claim</string>
 </resources>

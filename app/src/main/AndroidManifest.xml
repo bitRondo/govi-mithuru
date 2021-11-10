@@ -2,6 +2,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.govimithuruapp">
 
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="18" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,7 +19,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.GoviMithuruApp">
-        <activity android:name=".claimManagement.EvidenceFActivity"></activity>
+        <activity android:name=".claimManagement.Claim1FActivity"></activity>
+        <activity android:name=".claimManagement.EvidenceFActivity" />
         <activity android:name=".accountManagement.WelcomeActivity" />
         <activity android:name=".accountManagement.Login2FActivity" />
         <activity android:name=".accountManagement.Login2AActivity" />
@@ -32,12 +43,5 @@
                 android:resource="@xml/file_paths" />
         </provider>
     </application>
-
-    <uses-feature android:name="android.hardware.camera"
-        android:required="true" />
-
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="18" />
 
 </manifest>

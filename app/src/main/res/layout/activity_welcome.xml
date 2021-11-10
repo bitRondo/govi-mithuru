@@ -60,14 +60,14 @@
         app:layout_constraintTop_toBottomOf="@+id/TX_regNoTitle" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/BTN_newClaim"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginLeft="32dp"
         android:layout_marginTop="32dp"
-        android:onClick="goToEvidenceSubmission"
-        android:text="@string/txt_submit_evidence"
+        android:onClick="openNewClaim"
+        android:text="@string/txt_new_claim"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/TX_regNoTitle" />
 </androidx.constraintlayout.widget.ConstraintLayout>

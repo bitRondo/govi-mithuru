@@ -1,13 +1,19 @@
 package com.example.govimithuruapp.claimManagement;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.FileProvider;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -15,36 +21,50 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.govimithuruapp.R;
+import com.example.govimithuruapp.core.LocationController;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
+
+import static com.example.govimithuruapp.claimManagement.Claim1FActivity.CLAIM_OBJECT;
+import static com.example.govimithuruapp.core.LocationController.PERMISSIONS_FINE_LOCATION;
 
 public class EvidenceFActivity extends AppCompatActivity {
 
     private static final int CAMERA_REQUEST = 1;
-    private static final int CAMERA_PERMISSION_CODE = 100;
 
     private ImageView imageView;
     private FloatingActionButton prevBtn, nextBtn;
     private Button removeBtn;
     private CardView descCard;
     private EditText descText;
+    private TextView dateText, locText;
 
-    private ArrayList<String> filepathList = new ArrayList<>();
-    private ArrayList<String> descList = new ArrayList<>();
-    private int photoCounter = -1, maxPhotoCounter = -1;
+    private Claim claim;
+    private int evidenceCounter, maxEvidenceCounter;
     private String currentPhotoPath;
+    private String currentEvidenceID;
 
+    private static final DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+    // Initiating the Evidence Submission UI and data
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_evidence_f);
+
+        Intent intent = getIntent();
+        claim = (Claim) intent.getParcelableExtra(CLAIM_OBJECT);
+        maxEvidenceCounter = claim.getNumOfEvidences();
+        evidenceCounter = maxEvidenceCounter;
 
         imageView = (ImageView) findViewById(R.id.IMG_evidence);
         descCard = (CardView) findViewById(R.id.CARD_evidence_desc);
@@ -52,28 +72,33 @@ public class EvidenceFActivity extends AppCompatActivity {
         prevBtn = (FloatingActionButton) findViewById(R.id.BT_prevEvidence);
         nextBtn = (FloatingActionButton) findViewById(R.id.BT_nextEvidence);
         removeBtn = (Button) findViewById(R.id.BT_remove_evidence);
+        dateText = (TextView) findViewById(R.id.TX_evidenceDate);
+        locText = (TextView) findViewById(R.id.TX_evidenceLocation);
 
-        setButtons();
+        if (maxEvidenceCounter >= 0) viewEvidence(claim.getEvidence(maxEvidenceCounter));
+        initializeLocationController();
     }
 
+    // Create a temporary file to hold the capturing image
     private File createImageFile() throws IOException {
+        maxEvidenceCounter++;
         // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
+        String imageFileName = claim.getClaimID() + "_" + maxEvidenceCounter;
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
+        File image = File.createTempFile(imageFileName, ".jpg", storageDir);
 
         // Save a file: path for use with ACTION_VIEW intents
         currentPhotoPath = image.getAbsolutePath();
+        currentEvidenceID = imageFileName;
+
         return image;
     }
 
     public void capturePhoto(View view) {
-        if (photoCounter >= 0) descList.set(photoCounter, descText.getText().toString());
+        if (evidenceCounter >= 0)
+            claim.getEvidence(evidenceCounter).setDescription(descText.getText().toString());
+
+        // A new intent for Camera action
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
         // Create the File where the photo should go
@@ -91,24 +116,25 @@ public class EvidenceFActivity extends AppCompatActivity {
             cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
             startActivityForResult(cameraIntent, CAMERA_REQUEST);
         }
-
     }
 
+    // When returning from Camera action, show a new evidence
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
-            filepathList.add(currentPhotoPath);
-            descList.add("");
-            maxPhotoCounter++;
-            photoCounter = maxPhotoCounter;
-            viewPhoto(currentPhotoPath);
-            descText.setText("");
-            setButtons();
+            Evidence evidence = new Evidence(currentEvidenceID, new Date(), LocationController.getInstance().getLocation(), currentPhotoPath);
+            claim.addEvidence(evidence);
+            evidenceCounter = maxEvidenceCounter;
+
+            viewEvidence(evidence);
         }
     }
 
-    private void viewPhoto(String photoPath) {
+    // Place a photo on the imageView
+    private void viewEvidence(Evidence evidence) {
+        String photoPath = evidence.getPhotoPath();
+
         // Get the dimensions of the View
         int targetW = imageView.getWidth();
         int targetH = imageView.getHeight();
@@ -123,47 +149,93 @@ public class EvidenceFActivity extends AppCompatActivity {
         int photoH = bmOptions.outHeight;
 
         // Determine how much to scale down the image
-        int scaleFactor = Math.max(1, Math.min(photoW / targetW, photoH / targetH));
+//        int scaleFactor = Math.max(1, Math.min(photoW / targetW, photoH / targetH));
 
         // Decode the image file into a Bitmap sized to fill the View
         bmOptions.inJustDecodeBounds = false;
-        bmOptions.inSampleSize = scaleFactor;
+        bmOptions.inSampleSize = 1;
         bmOptions.inPurgeable = true;
 
         Bitmap bitmap = BitmapFactory.decodeFile(photoPath, bmOptions);
         imageView.setImageBitmap(bitmap);
+        descText.setText(evidence.getDescription());
+        dateText.setText(df.format(evidence.getDate()));
+        locText.setText(String.format("%.3f, %.3f",
+                evidence.getLocation().getLatitude(),
+                evidence.getLocation().getLongitude()));
+        setButtons();
     }
 
     public void goToPrevEvidence(View view) {
-        if (photoCounter >= 0) descList.set(photoCounter, descText.getText().toString());
-        photoCounter--;
-        viewPhoto(filepathList.get(photoCounter));
-        descText.setText(descList.get(photoCounter));
-        setButtons();
+        if (evidenceCounter >= 0)
+            claim.getEvidence(evidenceCounter).setDescription(descText.getText().toString());
+        evidenceCounter--;
+        viewEvidence(claim.getEvidence(evidenceCounter));
     }
 
     public void goToNextEvidence(View view) {
-        if (photoCounter >= 0) descList.set(photoCounter, descText.getText().toString());
-        photoCounter++;
-        viewPhoto(filepathList.get(photoCounter));
-        descText.setText(descList.get(photoCounter));
-        setButtons();
+        if (evidenceCounter >= 0)
+            claim.getEvidence(evidenceCounter).setDescription(descText.getText().toString());
+        evidenceCounter++;
+        viewEvidence(claim.getEvidence(evidenceCounter));
     }
 
     private void setButtons() {
         prevBtn.setVisibility(View.INVISIBLE);
         descCard.setVisibility(View.INVISIBLE);
         nextBtn.setVisibility(View.INVISIBLE);
-        if (photoCounter == 0) {
+        if (evidenceCounter == 0) {
             removeBtn.setVisibility(View.VISIBLE);
             descCard.setVisibility(View.VISIBLE);
-        } else if (photoCounter > 0) {
+        } else if (evidenceCounter > 0) {
             prevBtn.setVisibility(View.VISIBLE);
             descCard.setVisibility(View.VISIBLE);
             removeBtn.setVisibility(View.VISIBLE);
         }
-        if (photoCounter < maxPhotoCounter) {
+        if (evidenceCounter < maxEvidenceCounter) {
             nextBtn.setVisibility(View.VISIBLE);
+        }
+    }
+
+    // Going back to Claim details page
+    @Override
+    public void finish() {
+        if (evidenceCounter >= 0)
+            claim.getEvidence(evidenceCounter).setDescription(descText.getText().toString());
+        Intent data = new Intent();
+        data.putExtra(CLAIM_OBJECT, claim);
+
+        setResult(RESULT_OK, data);
+        super.finish();
+    }
+
+    private void initializeLocationController() {
+        if (!LocationController.getInstance().checkHasPermissions()) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                // has permissions
+                LocationController.getInstance().setHasPermissions(true);
+            } else {
+                // attempt to get permissions
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    requestPermissions(new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_FINE_LOCATION);
+                }
+            }
+        }
+        LocationController.getInstance().attachActivity(this);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == PERMISSIONS_FINE_LOCATION) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                LocationController.getInstance().setHasPermissions(true);
+                initializeLocationController();
+            } else {
+                Toast.makeText(this, "This App requires location permissions", Toast.LENGTH_SHORT).show();
+                finish();
+            }
         }
     }
 }

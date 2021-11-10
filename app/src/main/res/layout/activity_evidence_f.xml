@@ -193,6 +193,24 @@
                 app:layout_constraintStart_toEndOf="@+id/BT_prevEvidence"
                 app:layout_constraintTop_toBottomOf="@+id/LAY_evidence" />
 
+            <TextView
+                android:id="@+id/TX_evidenceDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/BT_remove_evidence" />
+
+            <TextView
+                android:id="@+id/TX_evidenceLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/TX_evidenceDate" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

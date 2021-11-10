@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.govimithuruapp.R;
-import com.example.govimithuruapp.claimManagement.EvidenceFActivity;
+import com.example.govimithuruapp.claimManagement.Claim1FActivity;
 
 import static com.example.govimithuruapp.core.LocaleManager.setContextLocale;
 
@@ -30,8 +30,8 @@ public class WelcomeActivity extends AppCompatActivity {
         tx_regNo.setText(regNo);
     }
 
-    public void goToEvidenceSubmission(View view) {
-        Intent intent = new Intent(this, EvidenceFActivity.class);
+    public void openNewClaim(View view) {
+        Intent intent = new Intent(this, Claim1FActivity.class);
         startActivity(intent);
     }
 }
