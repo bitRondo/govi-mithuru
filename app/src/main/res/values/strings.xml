@@ -20,4 +20,59 @@
     <string name="next_button_desc" translatable="false">NEXT_EVIDENCE</string>
     <string name="prev_button_desc" translatable="false">PREVIOUS_EVIDENCE</string>
     <string name="txt_new_claim">New Claim</string>
+    <string name="txt_farmerDetails">Details of the farmer</string>
+    <string name="txt_agriServiceCenter">Agricultural Service Center</string>
+    <string name="txt_gramaNiladhariDiv">Grama Niladhari Division</string>
+    <string name="txt_farmerRegNo">Farmer Registration No.</string>
+    <string name="txt_name">Name</string>
+    <string name="txt_address">Address</string>
+    <string name="txt_phone">Phone</string>
+    <string name="txt_nic">National Identity Card No.</string>
+    <string name="txt_landDetails">Details of the land</string>
+    <string name="txt_landRegNo">Land Registration No.</string>
+    <string name="txt_landName">Name of the Land</string>
+    <string name="txt_areaOfLand">Area of the Land</string>
+    <string name="txt_cultivationDetails">Details of the cultivation</string>
+    <string name="txt_crop">Cultivated crop</string>
+    <string name="txt_cultivationDate">Date of cultivation</string>
+    <string name="txt_areaOfCultivation">Area of cultivation</string>
+    <string name="txt_timeToHarvest">Time to yield harvest</string>
+    <string name="txt_months">months</string>
+    <string name="txt_damageDetails">Details of the damage</string>
+    <string name="txt_damageDate">Date of damage</string>
+    <string name="txt_damageCause">Cause of damage</string>
+    <string name="txt_flood">Flood</string>
+    <string name="txt_drought">Drought</string>
+    <string name="txt_elephants">Wild Elephants</string>
+    <string name="txt_fire">Fire</string>
+    <string name="txt_diseasesPests">Diseases/Pests</string>
+    <string name="txt_other">Other</string>
+    <string name="txt_damageLevel">Damage level</string>
+    <string name="txt_completeDamage">Complete damage</string>
+    <string name="txt_partialDamage">Partial damage</string>
+    <string name="txt_minorDamage">Minor damage</string>
+    <string name="txt_areaOfDamage">Area of damage</string>
+    <string name="txt_perches">perches</string>
+    <string name="txt_compensationDetails">Details of the compensation</string>
+    <string name="txt_amountRequested">Amount requested</string>
+    <string name="txt_rupees">LKR</string>
+    <string name="txt_bankAccountNo">Bank account No.</string>
+    <string name="txt_bank">Bank</string>
+    <string name="txt_branch">Branch</string>
+    <string name="txt_verificationOfDetails">I hereby verify that the details in this form are correct.</string>
+    <string-array name="array_damageCauses">
+        <item>@string/txt_flood</item>
+        <item>@string/txt_drought</item>
+        <item>@string/txt_elephants</item>
+        <item>@string/txt_fire</item>
+        <item>@string/txt_diseasesPests</item>
+        <item>@string/txt_other</item>
+    </string-array>
+    <string-array name="array_damageLevel">
+        <item>@string/txt_completeDamage</item>
+        <item>@string/txt_partialDamage</item>
+        <item>@string/txt_minorDamage</item>
+    </string-array>
+    <string name="placeholder_mandatory">Required</string>
+    <string name="txt_brieflyExplain">Please explain the cause briefly.</string>
 </resources>

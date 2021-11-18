@@ -16,6 +16,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
@@ -77,6 +78,9 @@ public class EvidenceFActivity extends AppCompatActivity {
 
         if (maxEvidenceCounter >= 0) viewEvidence(claim.getEvidence(maxEvidenceCounter));
         initializeLocationController();
+
+        System.out.println(claim.getFarmerName());
+        System.out.println(claim.getDamageCause());
     }
 
     // Create a temporary file to hold the capturing image
@@ -203,7 +207,7 @@ public class EvidenceFActivity extends AppCompatActivity {
         if (evidenceCounter >= 0)
             claim.getEvidence(evidenceCounter).setDescription(descText.getText().toString());
         Intent data = new Intent();
-        data.putExtra(CLAIM_OBJECT, claim);
+        data.putExtra(CLAIM_OBJECT, (Parcelable) claim);
 
         setResult(RESULT_OK, data);
         super.finish();

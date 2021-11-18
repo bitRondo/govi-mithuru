@@ -78,16 +78,439 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <Button
-                android:id="@+id/BTN_submitEvidence"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <ScrollView
+                android:id="@+id/SCROLL_claimForm"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginStart="@dimen/margin_1"
+                android:layout_marginLeft="@dimen/margin_1"
+                android:layout_marginTop="@dimen/margin_1"
+                android:layout_marginEnd="@dimen/margin_1"
+                android:layout_marginRight="@dimen/margin_1"
                 android:layout_marginBottom="@dimen/margin_1"
-                android:onClick="submitEvidence"
-                android:text="@string/txt_submit_evidence"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/TX_newClaim">
+
+                <LinearLayout
+                    android:id="@+id/LINLAY_claimDetails"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/TX_farmerDetails"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/txt_farmerDetails"
+                        android:textSize="@dimen/form_section_text_size"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/TX_agriServiceCenter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_1_half"
+                        android:layout_marginEnd="181dp"
+                        android:layout_marginRight="181dp"
+                        android:text="@string/txt_agriServiceCenter"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/TX_farmerDetails" />
+
+                    <EditText
+                        android:id="@+id/ED_agriServiceCenter"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:hint="@string/placeholder_mandatory"
+                        android:inputType="textPersonName"
+                        android:textColorHint="@color/danger_color" />
+
+                    <TextView
+                        android:id="@+id/TX_gramaNiladhariDiv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/txt_gramaNiladhariDiv" />
+
+                    <EditText
+                        android:id="@+id/ED_gramaNiladhariDiv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:inputType="textPersonName" />
+
+                    <TextView
+                        android:id="@+id/TX_farmerRegNo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/txt_farmerRegNo" />
+
+                    <EditText
+                        android:id="@+id/ED_farmerRegNo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:hint="@string/placeholder_mandatory"
+                        android:inputType="textPersonName"
+                        android:textColorHint="@color/danger_color" />
+
+                    <TextView
+                        android:id="@+id/TX_farmerName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/txt_name" />
+
+                    <EditText
+                        android:id="@+id/ED_farmerName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:hint="@string/placeholder_mandatory"
+                        android:inputType="textPersonName"
+                        android:textColorHint="@color/danger_color" />
+
+                    <TextView
+                        android:id="@+id/TX_farmerAddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/txt_address" />
+
+                    <EditText
+                        android:id="@+id/ED_farmerAddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:inputType="textPersonName" />
+
+                    <TextView
+                        android:id="@+id/TX_farmerPhone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/txt_phone" />
+
+                    <EditText
+                        android:id="@+id/ED_farmerPhone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:hint="@string/placeholder_mandatory"
+                        android:inputType="phone"
+                        android:textColorHint="@color/danger_color" />
+
+                    <TextView
+                        android:id="@+id/TX_farmerNIC"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/txt_nic" />
+
+                    <EditText
+                        android:id="@+id/ED_farmerNIC"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:hint="@string/placeholder_mandatory"
+                        android:inputType="textPersonName"
+                        android:textColorHint="@color/danger_color" />
+
+                    <TextView
+                        android:id="@+id/TX_landDetails"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_1_half"
+                        android:text="@string/txt_landDetails"
+                        android:textSize="@dimen/form_section_text_size"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/TX_landRegNo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_1_half"
+                        android:text="@string/txt_landRegNo" />
+
+                    <EditText
+                        android:id="@+id/ED_landRegNo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:hint="@string/placeholder_mandatory"
+                        android:inputType="textPersonName"
+                        android:textColorHint="@color/danger_color" />
+
+                    <TextView
+                        android:id="@+id/TX_landName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/txt_landName" />
+
+                    <EditText
+                        android:id="@+id/ED_landName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:inputType="textPersonName" />
+
+                    <TextView
+                        android:id="@+id/TX_areaOfLand"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/txt_areaOfLand" />
+
+                    <EditText
+                        android:id="@+id/ED_areaOfLand"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:hint="@string/placeholder_mandatory"
+                        android:inputType="number"
+                        android:textColorHint="@color/danger_color" />
+
+                    <TextView
+                        android:id="@+id/TX_cultivationDetails"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_1_half"
+                        android:text="@string/txt_cultivationDetails"
+                        android:textSize="@dimen/form_section_text_size"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/TX_crop"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_1_half"
+                        android:text="@string/txt_crop" />
+
+                    <EditText
+                        android:id="@+id/ED_crop"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:hint="@string/placeholder_mandatory"
+                        android:inputType="textPersonName"
+                        android:textColorHint="@color/danger_color" />
+
+                    <TextView
+                        android:id="@+id/TX_cultivationDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/txt_cultivationDate" />
+
+                    <EditText
+                        android:id="@+id/ED_cultivationDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:inputType="date"
+                        android:clickable="false"
+                        android:cursorVisible="false"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:longClickable="false" />
+
+                    <TextView
+                        android:id="@+id/TX_areaOfCultivation"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/txt_areaOfCultivation" />
+
+                    <EditText
+                        android:id="@+id/ED_areaOfCultivation"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:hint="@string/placeholder_mandatory"
+                        android:inputType="number"
+                        android:textColorHint="@color/danger_color" />
+
+                    <TextView
+                        android:id="@+id/TX_timeToHarvest"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/txt_timeToHarvest" />
+
+                    <EditText
+                        android:id="@+id/ED_timeToHarvest"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:inputType="number" />
+
+                    <TextView
+                        android:id="@+id/TX_damageDetails"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_1_half"
+                        android:text="@string/txt_damageDetails"
+                        android:textSize="@dimen/form_section_text_size"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/TX_damageDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_1_half"
+                        android:text="@string/txt_damageDate" />
+
+                    <EditText
+                        android:id="@+id/ED_damageDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clickable="false"
+                        android:cursorVisible="false"
+                        android:ems="10"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:hint="@string/placeholder_mandatory"
+                        android:inputType="date"
+                        android:longClickable="false"
+                        android:textColorHint="@color/danger_color" />
+
+                    <TextView
+                        android:id="@+id/TX_damageCause"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/txt_damageCause" />
+
+                    <Spinner
+                        android:id="@+id/SPINNER_damageCause"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:id="@+id/TX_brieflyExplain"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/txt_brieflyExplain"
+                        android:visibility="gone" />
+
+                    <EditText
+                        android:id="@+id/ED_otherCause"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:hint="@string/placeholder_mandatory"
+                        android:inputType="textPersonName"
+                        android:textColorHint="@color/danger_color"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/TX_damageLevel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/txt_damageLevel" />
+
+                    <Spinner
+                        android:id="@+id/SPINNER_damageLevel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:id="@+id/TX_areaOfDamage"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/txt_areaOfDamage" />
+
+                    <EditText
+                        android:id="@+id/ED_areaOfDamage"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:hint="@string/placeholder_mandatory"
+                        android:inputType="number"
+                        android:textColorHint="@color/danger_color" />
+
+                    <TextView
+                        android:id="@+id/TX_compensationDetails"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_1_half"
+                        android:text="@string/txt_compensationDetails"
+                        android:textSize="@dimen/form_section_text_size"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/TX_amountRequested"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_1_half"
+                        android:text="@string/txt_amountRequested" />
+
+                    <EditText
+                        android:id="@+id/ED_amountRequested"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:hint="@string/placeholder_mandatory"
+                        android:inputType="number"
+                        android:textColorHint="@color/danger_color" />
+
+                    <TextView
+                        android:id="@+id/TX_bankAccountNo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/txt_bankAccountNo" />
+
+                    <EditText
+                        android:id="@+id/ED_bankAccountNo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:hint="@string/placeholder_mandatory"
+                        android:inputType="number"
+                        android:textColorHint="@color/danger_color" />
+
+                    <TextView
+                        android:id="@+id/TX_bank"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/txt_bank" />
+
+                    <EditText
+                        android:id="@+id/ED_bank"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:hint="@string/placeholder_mandatory"
+                        android:inputType="textPersonName"
+                        android:textColorHint="@color/danger_color" />
+
+                    <TextView
+                        android:id="@+id/TX_branch"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/txt_branch" />
+
+                    <EditText
+                        android:id="@+id/ED_branch"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:hint="@string/placeholder_mandatory"
+                        android:inputType="textPersonName"
+                        android:textColorHint="@color/danger_color" />
+
+                    <Button
+                        android:id="@+id/BTN_submitEvidence"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_2"
+                        android:layout_marginEnd="0dp"
+                        android:layout_marginRight="0dp"
+                        android:layout_marginBottom="@dimen/margin_1"
+                        android:onClick="submitEvidence"
+                        android:text="@string/txt_submit_evidence"
+                        app:backgroundTint="@color/app_color_2"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/SPINNER_damageCause" />
+
+                </LinearLayout>
+            </ScrollView>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
