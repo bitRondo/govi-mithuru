@@ -10,7 +10,7 @@ import java.util.Date;
 public class Claim implements Parcelable, Serializable {
     private String claimID, topic, agriServiceCenter, gramaNiladhariDiv, farmerRegNo,
         farmerName, farmerAddress, farmerPhone, farmerNIC, landRegNum, landName,
-        crop, bankAccountNo, bank, branch;
+        crop, bankAccountNo, bank, branch, acceptedFields, damageLevelComment, compensationComment;
     private int state, damageCause, damageLevel;
     private float landArea, cultivatedArea, timeToHarvest, damageArea, compensationAmount;
     private Date cultivatedDate, damageDate;
@@ -19,6 +19,7 @@ public class Claim implements Parcelable, Serializable {
     public Claim (String claimID) {
         this.claimID = claimID;
         state = 0;
+        acceptedFields = ""; damageLevelComment = ""; compensationComment = "";
         evidences = new ArrayList<>();
     }
 
@@ -48,6 +49,10 @@ public class Claim implements Parcelable, Serializable {
         farmerAddress = in.readString();
         landName = in.readString();
         timeToHarvest = in.readFloat();
+
+        acceptedFields = in.readString();
+        damageLevelComment = in.readString();
+        compensationComment = in.readString();
 
         evidences = in.readArrayList(Evidence.class.getClassLoader());
         if (in.dataAvail() > 0) cultivatedDate = new Date(in.readLong());
@@ -299,6 +304,10 @@ public class Claim implements Parcelable, Serializable {
         dest.writeString(farmerAddress);
         dest.writeString(landName);
         dest.writeFloat(timeToHarvest);
+
+        dest.writeString(acceptedFields);
+        dest.writeString(damageLevelComment);
+        dest.writeString(compensationComment);
 
         dest.writeList(evidences);
         if (cultivatedDate != null) dest.writeLong(cultivatedDate.getTime());
