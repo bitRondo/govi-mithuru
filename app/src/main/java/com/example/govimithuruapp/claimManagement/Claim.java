@@ -10,18 +10,21 @@ import java.util.Date;
 public class Claim implements Parcelable, Serializable {
     private String claimID, topic, agriServiceCenter, gramaNiladhariDiv, farmerRegNo,
         farmerName, farmerAddress, farmerPhone, farmerNIC, landRegNum, landName,
-        crop, damageCause, damageLevel, bankAccountNo, bank, branch;
+        crop, bankAccountNo, bank, branch;
+    private int state, damageCause, damageLevel;
     private float landArea, cultivatedArea, timeToHarvest, damageArea, compensationAmount;
     private Date cultivatedDate, damageDate;
     private ArrayList<Evidence> evidences;
 
     public Claim (String claimID) {
         this.claimID = claimID;
+        state = 0;
         evidences = new ArrayList<>();
     }
 
     protected Claim(Parcel in) {
         claimID = in.readString();
+        state = in.readInt();
         topic = in.readString();
         agriServiceCenter = in.readString();
         farmerRegNo = in.readString();
@@ -33,8 +36,8 @@ public class Claim implements Parcelable, Serializable {
         crop = in.readString();
         cultivatedArea = in.readFloat();
         damageDate = new Date(in.readLong());
-        damageCause = in.readString();
-        damageLevel = in.readString();
+        damageCause = in.readInt();
+        damageLevel = in.readInt();
         damageArea = in.readFloat();
         compensationAmount = in.readFloat();
         bankAccountNo = in.readString();
@@ -152,19 +155,19 @@ public class Claim implements Parcelable, Serializable {
         this.crop = crop;
     }
 
-    public String getDamageCause() {
+    public int getDamageCause() {
         return damageCause;
     }
 
-    public void setDamageCause(String damageCause) {
+    public void setDamageCause(int damageCause) {
         this.damageCause = damageCause;
     }
 
-    public String getDamageLevel() {
+    public int getDamageLevel() {
         return damageLevel;
     }
 
-    public void setDamageLevel(String damageLevel) {
+    public void setDamageLevel(int damageLevel) {
         this.damageLevel = damageLevel;
     }
 
@@ -272,6 +275,7 @@ public class Claim implements Parcelable, Serializable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(claimID);
+        dest.writeInt(state);
         dest.writeString(topic);
         dest.writeString(agriServiceCenter);
         dest.writeString(farmerRegNo);
@@ -283,8 +287,8 @@ public class Claim implements Parcelable, Serializable {
         dest.writeString(crop);
         dest.writeFloat(cultivatedArea);
         dest.writeLong(damageDate.getTime());
-        dest.writeString(damageCause);
-        dest.writeString(damageLevel);
+        dest.writeInt(damageCause);
+        dest.writeInt(damageLevel);
         dest.writeFloat(damageArea);
         dest.writeFloat(compensationAmount);
         dest.writeString(bankAccountNo);

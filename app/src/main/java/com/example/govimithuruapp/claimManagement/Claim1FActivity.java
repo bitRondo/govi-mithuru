@@ -213,9 +213,9 @@ public class Claim1FActivity extends AppCompatActivity implements AdapterView.On
         claim.setCultivatedArea(Float.parseFloat(e9.getText().toString()));
         claim.setDamageDate(DAM_CAL.getTime());
         Spinner s1 = (Spinner) findViewById(R.id.SPINNER_damageCause);
-        claim.setDamageCause(CAUSES[s1.getSelectedItemPosition()]);
+        claim.setDamageCause(s1.getSelectedItemPosition());
         Spinner s2 = (Spinner) findViewById(R.id.SPINNER_damageLevel);
-        claim.setDamageLevel(LEVELS[s2.getSelectedItemPosition()]);
+        claim.setDamageLevel(s2.getSelectedItemPosition());
         claim.setDamageArea(Float.parseFloat(e10.getText().toString()));
         claim.setCompensationAmount(Float.parseFloat(e11.getText().toString()));
         claim.setBankAccountNo(e12.getText().toString());
