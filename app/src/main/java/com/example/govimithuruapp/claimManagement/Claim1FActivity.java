@@ -230,7 +230,8 @@ public class Claim1FActivity extends AppCompatActivity implements AdapterView.On
         EditText e18 = (EditText) findViewById(R.id.ED_timeToHarvest);
         float tth = (!e18.getText().toString().equals("")) ? Float.parseFloat(e18.getText().toString()) : 0;
         claim.setTimeToHarvest(tth);
-        claim.setCultivatedDate(CULT_CAL.getTime());
+        EditText e19 = (EditText) findViewById(R.id.ED_cultivationDate);
+        if (e19.getText().toString().length() > 0) claim.setCultivatedDate(CULT_CAL.getTime());
     }
 
     public void submitEvidence(View view) {

@@ -1,11 +1,16 @@
 package com.example.govimithuruapp.claimManagement;
 
+import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import com.example.govimithuruapp.core.BackendManager;
+import com.example.govimithuruapp.core.UtilityManager;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 public class Claim implements Parcelable, Serializable {
     private String claimID, topic, agriServiceCenter, gramaNiladhariDiv, farmerRegNo,
@@ -311,5 +316,38 @@ public class Claim implements Parcelable, Serializable {
 
         dest.writeList(evidences);
         if (cultivatedDate != null) dest.writeLong(cultivatedDate.getTime());
+    }
+
+    public void postClaimToBackend(Context context) {
+        HashMap<String, String> data = new HashMap<>();
+        data.put("claimID", claimID);
+        data.put("state", String.valueOf(state));
+        data.put("topic", topic);
+        data.put("agriServiceCenter", agriServiceCenter);
+        data.put("farmerRegNo", farmerRegNo);
+        data.put("farmerName", farmerName);
+        data.put("farmerPhone", farmerPhone);
+        data.put("farmerNIC", farmerNIC);
+        data.put("landRegNum", landRegNum);
+        data.put("landArea", String.valueOf(landArea));
+        data.put("crop", crop);
+        data.put("cultivatedArea", String.valueOf(cultivatedArea));
+        data.put("damageDate", UtilityManager.getInstance().formatDate(damageDate));
+        data.put("damageCause", String.valueOf(damageCause));
+        data.put("damageLevel", String.valueOf(damageLevel));
+        data.put("damageArea", String.valueOf(damageArea));
+        data.put("compensation", String.valueOf(compensationAmount));
+        data.put("bankAccountNo", bankAccountNo);
+        data.put("bank", bank);
+        data.put("branch", branch);
+
+        data.put("gramaNiladhariDiv", gramaNiladhariDiv);
+        data.put("address", farmerAddress);
+
+        if (timeToHarvest > 0) data.put("timeToHarvest", String.valueOf(timeToHarvest));
+        if (cultivatedDate != null) data.put("cultivatedDate",
+                UtilityManager.getInstance().formatDate(cultivatedDate));
+
+        BackendManager.getInstance(context).postData(BackendManager.CLAIM_SUFFIX, data);
     }
 }

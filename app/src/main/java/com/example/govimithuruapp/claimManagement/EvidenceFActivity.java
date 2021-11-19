@@ -219,6 +219,7 @@ public class EvidenceFActivity extends AppCompatActivity {
 
     public void finalizeClaim(View view) {
         System.out.println("Need to send");
+        claim.postClaimToBackend(this);
     }
 
     // Going back to Claim details page
