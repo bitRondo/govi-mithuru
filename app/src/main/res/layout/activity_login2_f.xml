@@ -66,7 +66,7 @@
                 android:ems="10"
                 android:hint="@string/placeholder_nic"
                 android:importantForAutofill="no"
-                android:inputType="textPersonName" />
+                android:inputType="none" />
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
@@ -91,14 +91,28 @@
                 android:hint="@string/placeholder_farmerNo"
                 android:importantForAutofill="no"
                 android:inputType="textPersonName" />
+
         </androidx.cardview.widget.CardView>
 
-        <Button
-            android:id="@+id/BT_login"
+        <TextView
+            android:id="@+id/TX_loginError2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_1"
-            android:onClick="acceptFarmerRegNo"
+            android:layout_marginTop="@dimen/margin_1_half"
+            android:text="@string/txt_invalidInput"
+            android:textColor="@color/danger_color"
+            android:textStyle="bold"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/CARD_farmerNo" />
+
+        <Button
+            android:id="@+id/BT_login2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_1_half"
+            android:onClick="checkLoginStep2F"
             android:shadowColor="@color/black"
             android:shadowDx="15"
             android:shadowDy="15"
@@ -108,7 +122,7 @@
             app:cornerRadius="@dimen/button_1_corner"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/CARD_farmerNo" />
+            app:layout_constraintTop_toBottomOf="@+id/TX_loginError2" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -185,6 +185,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_1"
+                android:onClick="removeEvidence"
                 android:text="@string/btnText_remove_evidence"
                 android:visibility="invisible"
                 app:backgroundTint="@color/danger_color"
@@ -197,7 +198,7 @@
                 android:id="@+id/TX_evidenceDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_1"
+                android:layout_marginTop="@dimen/margin_1_half"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/BT_remove_evidence" />
@@ -206,10 +207,23 @@
                 android:id="@+id/TX_evidenceLocation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="@dimen/margin_1_half"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/TX_evidenceDate" />
+
+            <Button
+                android:id="@+id/BTN_finalize"
+                android:layout_width="@dimen/image_thumb_width"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_2"
+                android:onClick="finalizeClaim"
+                android:text="@string/txt_finalize"
+                android:visibility="invisible"
+                app:backgroundTint="@color/app_color_1"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

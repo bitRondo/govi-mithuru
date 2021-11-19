@@ -18,9 +18,10 @@
     <dimen name="page_content_width">376dp</dimen>
     <dimen name="page_content_height">560dp</dimen>
     <dimen name="page_title_text_size">24sp</dimen>
-    <dimen name="image_thumb_width">344dp</dimen>
+    <dimen name="image_thumb_width">348dp</dimen>
     <dimen name="image_thumb_height">200dp</dimen>
     <dimen name="image_scrollbar_height">400dp</dimen>
     <dimen name="margin_1_half">8dp</dimen>
     <dimen name="form_section_text_size">18sp</dimen>
+    <dimen name="claim_topic_width">348dp</dimen>
 </resources>

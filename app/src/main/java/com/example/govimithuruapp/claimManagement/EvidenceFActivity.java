@@ -27,12 +27,11 @@ import android.widget.Toast;
 
 import com.example.govimithuruapp.R;
 import com.example.govimithuruapp.core.LocationController;
+import com.example.govimithuruapp.core.UtilityManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import static com.example.govimithuruapp.claimManagement.Claim1FActivity.CLAIM_OBJECT;
@@ -44,7 +43,7 @@ public class EvidenceFActivity extends AppCompatActivity {
 
     private ImageView imageView;
     private FloatingActionButton prevBtn, nextBtn;
-    private Button removeBtn;
+    private Button removeBtn, finalizeBtn;
     private CardView descCard;
     private EditText descText;
     private TextView dateText, locText;
@@ -53,8 +52,6 @@ public class EvidenceFActivity extends AppCompatActivity {
     private int evidenceCounter, maxEvidenceCounter;
     private String currentPhotoPath;
     private String currentEvidenceID;
-
-    private static final DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     // Initiating the Evidence Submission UI and data
     @Override
@@ -73,14 +70,12 @@ public class EvidenceFActivity extends AppCompatActivity {
         prevBtn = (FloatingActionButton) findViewById(R.id.BT_prevEvidence);
         nextBtn = (FloatingActionButton) findViewById(R.id.BT_nextEvidence);
         removeBtn = (Button) findViewById(R.id.BT_remove_evidence);
+        finalizeBtn = (Button) findViewById(R.id.BTN_finalize);
         dateText = (TextView) findViewById(R.id.TX_evidenceDate);
         locText = (TextView) findViewById(R.id.TX_evidenceLocation);
 
         if (maxEvidenceCounter >= 0) viewEvidence(claim.getEvidence(maxEvidenceCounter));
         initializeLocationController();
-
-        System.out.println(claim.getFarmerName());
-        System.out.println(claim.getDamageCause());
     }
 
     // Create a temporary file to hold the capturing image
@@ -137,37 +132,54 @@ public class EvidenceFActivity extends AppCompatActivity {
 
     // Place a photo on the imageView
     private void viewEvidence(Evidence evidence) {
-        String photoPath = evidence.getPhotoPath();
+        if (evidence != null) {
+            String photoPath = evidence.getPhotoPath();
 
-        // Get the dimensions of the View
-        int targetW = imageView.getWidth();
-        int targetH = imageView.getHeight();
+            // Get the dimensions of the View
+            int targetW = imageView.getWidth();
+            int targetH = imageView.getHeight();
 
-        // Get the dimensions of the bitmap
-        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-        bmOptions.inJustDecodeBounds = true;
+            // Get the dimensions of the bitmap
+            BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+            bmOptions.inJustDecodeBounds = true;
 
-        BitmapFactory.decodeFile(photoPath, bmOptions);
+            BitmapFactory.decodeFile(photoPath, bmOptions);
 
-        int photoW = bmOptions.outWidth;
-        int photoH = bmOptions.outHeight;
+            int photoW = bmOptions.outWidth;
+            int photoH = bmOptions.outHeight;
 
-        // Determine how much to scale down the image
+            // Determine how much to scale down the image
 //        int scaleFactor = Math.max(1, Math.min(photoW / targetW, photoH / targetH));
 
-        // Decode the image file into a Bitmap sized to fill the View
-        bmOptions.inJustDecodeBounds = false;
-        bmOptions.inSampleSize = 1;
-        bmOptions.inPurgeable = true;
+            // Decode the image file into a Bitmap sized to fill the View
+            bmOptions.inJustDecodeBounds = false;
+            bmOptions.inSampleSize = 1;
+            bmOptions.inPurgeable = true;
 
-        Bitmap bitmap = BitmapFactory.decodeFile(photoPath, bmOptions);
-        imageView.setImageBitmap(bitmap);
-        descText.setText(evidence.getDescription());
-        dateText.setText(df.format(evidence.getDate()));
-        locText.setText(String.format("%.3f, %.3f",
-                evidence.getLocation().getLatitude(),
-                evidence.getLocation().getLongitude()));
+            Bitmap bitmap = BitmapFactory.decodeFile(photoPath, bmOptions);
+            imageView.setImageBitmap(bitmap);
+            descText.setText(evidence.getDescription());
+            dateText.setText(UtilityManager.getInstance().formatDateAndTime(evidence.getDate()));
+            locText.setText(String.format("%.3f, %.3f",
+                    evidence.getLocation().getLatitude(),
+                    evidence.getLocation().getLongitude()));
+        } else {
+            imageView.setImageResource(android.R.drawable.ic_menu_gallery);
+            dateText.setText("");
+            locText.setText("");
+        }
         setButtons();
+    }
+
+    public void removeEvidence(View view) {
+        claim.removeEvidence(evidenceCounter);
+        evidenceCounter--;
+        maxEvidenceCounter = claim.getNumOfEvidences();
+        if (evidenceCounter >= 0) viewEvidence(claim.getEvidence(evidenceCounter));
+        else if (maxEvidenceCounter >= 0) {
+            evidenceCounter = 0;
+            viewEvidence(claim.getEvidence(evidenceCounter));
+        } else viewEvidence(null);
     }
 
     public void goToPrevEvidence(View view) {
@@ -188,17 +200,25 @@ public class EvidenceFActivity extends AppCompatActivity {
         prevBtn.setVisibility(View.INVISIBLE);
         descCard.setVisibility(View.INVISIBLE);
         nextBtn.setVisibility(View.INVISIBLE);
+        removeBtn.setVisibility(View.INVISIBLE);
+        finalizeBtn.setVisibility(View.INVISIBLE);
         if (evidenceCounter == 0) {
             removeBtn.setVisibility(View.VISIBLE);
+            finalizeBtn.setVisibility(View.VISIBLE);
             descCard.setVisibility(View.VISIBLE);
         } else if (evidenceCounter > 0) {
             prevBtn.setVisibility(View.VISIBLE);
             descCard.setVisibility(View.VISIBLE);
             removeBtn.setVisibility(View.VISIBLE);
+            finalizeBtn.setVisibility(View.VISIBLE);
         }
         if (evidenceCounter < maxEvidenceCounter) {
             nextBtn.setVisibility(View.VISIBLE);
         }
+    }
+
+    public void finalizeClaim(View view) {
+        System.out.println("Need to send");
     }
 
     // Going back to Claim details page

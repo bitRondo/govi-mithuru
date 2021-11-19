@@ -65,16 +65,15 @@
             app:layout_constraintTop_toBottomOf="@+id/TX_appTitle">
 
             <TextView
-                android:id="@+id/TX_newClaim"
-                android:layout_width="wrap_content"
+                android:id="@+id/TX_claimTopic"
+                android:layout_width="@dimen/claim_topic_width"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_1"
-                android:layout_marginLeft="@dimen/margin_1"
                 android:layout_marginTop="@dimen/margin_1"
                 android:text="@string/txt_new_claim"
                 android:textColor="@color/app_color_1"
                 android:textSize="@dimen/page_title_text_size"
                 android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -91,7 +90,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/TX_newClaim">
+                app:layout_constraintTop_toBottomOf="@+id/TX_claimTopic">
 
                 <LinearLayout
                     android:id="@+id/LINLAY_claimDetails"
@@ -100,9 +99,34 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/TX_topicSection"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/txt_claimTopic"
+                        android:textSize="@dimen/form_section_text_size"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/TX_topicExplain"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_1_half"
+                        android:text="@string/txt_topicExplain" />
+
+                    <EditText
+                        android:id="@+id/ED_claimTopic"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:hint="@string/placeholder_mandatory"
+                        android:inputType="textPersonName"
+                        android:textColorHint="@color/danger_color" />
+
+                    <TextView
                         android:id="@+id/TX_farmerDetails"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_1_half"
                         android:text="@string/txt_farmerDetails"
                         android:textSize="@dimen/form_section_text_size"
                         android:textStyle="bold" />

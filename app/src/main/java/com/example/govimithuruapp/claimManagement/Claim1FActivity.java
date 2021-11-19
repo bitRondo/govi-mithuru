@@ -19,9 +19,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.govimithuruapp.R;
+import com.example.govimithuruapp.accountManagement.AuthController;
+import com.example.govimithuruapp.accountManagement.User;
+import com.example.govimithuruapp.core.UtilityManager;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class Claim1FActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -30,22 +33,21 @@ public class Claim1FActivity extends AppCompatActivity implements AdapterView.On
 
     private static final Calendar CULT_CAL = Calendar.getInstance();
     private static final Calendar DAM_CAL = Calendar.getInstance();
-    private static final String DATE_FORMAT = "yyyy-MM-dd";
-    private static final SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
 
     private static final String[] CAUSES = {"FLOOD", "DROUGHT", "WILD ELEPHANTS", "FIRE", "DISEASES/PESTS", "OTHER"};
     private static final String[] LEVELS = {"COMPLETE DAMAGE", "PARTIAL DAMAGE", "MINOR DAMAGE"};
 
     private Claim claim;
 
+    private TextView tTopic;
     private EditText eCultDate, eDamDate;
     private TextView tBrieflyExplain;
     private EditText eOtherCause;
     private Button submitEvidenceButton;
-    private EditText e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11, e12, e13, e14;
+    private EditText e0, e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11, e12, e13, e14, e15, e16;
     private static EditText[] mandatoryInputs;
 
-    private final TextWatcher watcher = new TextWatcher() {
+    private final TextWatcher mandatoryWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -66,6 +68,24 @@ public class Claim1FActivity extends AppCompatActivity implements AdapterView.On
         }
     };
 
+    private final TextWatcher topicWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            String text = e0.getText().toString();
+            tTopic.setText(text);
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +94,7 @@ public class Claim1FActivity extends AppCompatActivity implements AdapterView.On
         submitEvidenceButton = (Button) findViewById(R.id.BTN_submitEvidence);
         submitEvidenceButton.setEnabled(false);
 
+        e0 = (EditText) findViewById(R.id.ED_claimTopic);
         e1 = (EditText) findViewById(R.id.ED_agriServiceCenter);
         e2 = (EditText) findViewById(R.id.ED_farmerRegNo);
         e3 = (EditText) findViewById(R.id.ED_farmerName);
@@ -89,11 +110,17 @@ public class Claim1FActivity extends AppCompatActivity implements AdapterView.On
         e13= (EditText) findViewById(R.id.ED_bank);
         e14 = (EditText) findViewById(R.id.ED_branch);
 
+        e15 = (EditText) findViewById(R.id.ED_gramaNiladhariDiv);
+        e16 = (EditText) findViewById(R.id.ED_farmerAddress);
+
         eOtherCause = (EditText) findViewById(R.id.ED_otherCause);
         tBrieflyExplain = (TextView) findViewById(R.id.TX_brieflyExplain);
 
-        mandatoryInputs = new EditText[] {e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11, e12, e13, e14};
-        for (EditText input : mandatoryInputs) input.addTextChangedListener(watcher);
+        mandatoryInputs = new EditText[] {e0, e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11, e12, e13, e14};
+        for (EditText input : mandatoryInputs) input.addTextChangedListener(mandatoryWatcher);
+
+        tTopic = (TextView) findViewById(R.id.TX_claimTopic);
+        e0.addTextChangedListener(topicWatcher);
 
         Spinner damageCauses = (Spinner) findViewById(R.id.SPINNER_damageCause);
         ArrayAdapter<CharSequence> causesAdapter = ArrayAdapter.createFromResource(this,
@@ -149,17 +176,32 @@ public class Claim1FActivity extends AppCompatActivity implements AdapterView.On
         });
 
         claim = new Claim("0001");
+        autoFillFormData();
     }
 
     private void updateCultEd() {
-        eCultDate.setText(sdf.format(CULT_CAL.getTime()));
+        eCultDate.setText(UtilityManager.getInstance().formatDate(CULT_CAL.getTime()));
     }
 
     private void updateDamEd() {
-        eDamDate.setText(sdf.format(DAM_CAL.getTime()));
+        eDamDate.setText(UtilityManager.getInstance().formatDate(DAM_CAL.getTime()));
+    }
+
+    private void autoFillFormData() {
+        e0.setText(getResources().getString(R.string.txt_defaultClaimTopic, UtilityManager.getInstance().formatDate(new Date())));
+
+        User user = AuthController.getInstance().getCurrentUser();
+        e1.setText(user.getAgriServiceCenter());
+        e2.setText(user.getRegNo());
+        e3.setText(user.getName());
+        e4.setText(user.getPhone());
+        e5.setText(user.getNIC());
+        e15.setText(user.getGramaNiladhariDiv());
+        e16.setText(user.getAddress());
     }
 
     private void extractFormData() {
+        claim.setTopic(e0.getText().toString());
         claim.setAgriServiceCenter(e1.getText().toString());
         claim.setFarmerRegNo(e2.getText().toString());
         claim.setFarmerName(e3.getText().toString());
@@ -180,10 +222,9 @@ public class Claim1FActivity extends AppCompatActivity implements AdapterView.On
         claim.setBank(e13.getText().toString());
         claim.setBranch(e14.getText().toString());
 
-        EditText e15 = (EditText) findViewById(R.id.ED_gramaNiladhariDiv);
         claim.setGramaNiladhariDiv(e15.getText().toString());
-        EditText e16 = (EditText) findViewById(R.id.ED_farmerAddress);
         claim.setFarmerAddress(e16.getText().toString());
+
         EditText e17 = (EditText) findViewById(R.id.ED_landName);
         claim.setLandName(e17.getText().toString());
         EditText e18 = (EditText) findViewById(R.id.ED_timeToHarvest);
@@ -207,12 +248,6 @@ public class Claim1FActivity extends AppCompatActivity implements AdapterView.On
                 claim = (Claim) data.getParcelableExtra(CLAIM_OBJECT);
             }
         }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        System.out.println("On Pause");
     }
 
     @Override

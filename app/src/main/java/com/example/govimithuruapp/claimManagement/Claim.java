@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Claim implements Parcelable, Serializable {
-    private String claimID, agriServiceCenter, gramaNiladhariDiv, farmerRegNo,
+    private String claimID, topic, agriServiceCenter, gramaNiladhariDiv, farmerRegNo,
         farmerName, farmerAddress, farmerPhone, farmerNIC, landRegNum, landName,
         crop, damageCause, damageLevel, bankAccountNo, bank, branch;
     private float landArea, cultivatedArea, timeToHarvest, damageArea, compensationAmount;
@@ -22,6 +22,7 @@ public class Claim implements Parcelable, Serializable {
 
     protected Claim(Parcel in) {
         claimID = in.readString();
+        topic = in.readString();
         agriServiceCenter = in.readString();
         farmerRegNo = in.readString();
         farmerName = in.readString();
@@ -63,6 +64,12 @@ public class Claim implements Parcelable, Serializable {
 
     public String getClaimID() {
         return claimID;
+    }
+
+    public String getTopic() { return topic; }
+
+    public void setTopic(String topic) {
+        this.topic = topic;
     }
 
     public String getAgriServiceCenter() {
@@ -249,8 +256,8 @@ public class Claim implements Parcelable, Serializable {
         return evidences.get(index);
     }
 
-    public void removeEvidence(Evidence evidence) {
-        evidences.remove(evidence);
+    public void removeEvidence(int index) {
+        evidences.remove(index);
     }
 
     public int getNumOfEvidences() {
@@ -265,6 +272,7 @@ public class Claim implements Parcelable, Serializable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(claimID);
+        dest.writeString(topic);
         dest.writeString(agriServiceCenter);
         dest.writeString(farmerRegNo);
         dest.writeString(farmerName);

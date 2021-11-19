@@ -10,7 +10,7 @@
     <string name="app_title_mithuru">Mithuru</string>
     <string name="btnText_submit">Submit</string>
     <string name="placeholder_farmerNo">Farmer Reg. No.</string>
-    <string name="txt_Welcome">Welcome!</string>
+    <string name="txt_Welcome">Ayubowan!</string>
     <string name="settings_button_desc" translatable="false">PREFERENCES</string>
     <string name="txt_submit_evidence">Submit Evidence</string>
     <string name="image_content_desc" translatable="false">EVIDENCE</string>
@@ -19,7 +19,7 @@
     <string name="btnText_remove_evidence">Remove</string>
     <string name="next_button_desc" translatable="false">NEXT_EVIDENCE</string>
     <string name="prev_button_desc" translatable="false">PREVIOUS_EVIDENCE</string>
-    <string name="txt_new_claim">New Claim</string>
+    <string name="txt_new_claim">New Claim Request</string>
     <string name="txt_farmerDetails">Details of the farmer</string>
     <string name="txt_agriServiceCenter">Agricultural Service Center</string>
     <string name="txt_gramaNiladhariDiv">Grama Niladhari Division</string>
@@ -75,4 +75,9 @@
     </string-array>
     <string name="placeholder_mandatory">Required</string>
     <string name="txt_brieflyExplain">Please explain the cause briefly.</string>
+    <string name="txt_invalidInput">Invalid Input. Please try again!</string>
+    <string name="txt_claimTopic">Topic</string>
+    <string name="txt_topicExplain">Include a brief topic to this claim, mentioning the damage.</string>
+    <string name="txt_defaultClaimTopic">Claim Request on %1$s</string>
+    <string name="txt_finalize">Finalize</string>
 </resources>

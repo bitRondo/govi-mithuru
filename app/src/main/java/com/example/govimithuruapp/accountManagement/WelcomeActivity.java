@@ -24,6 +24,9 @@ public class WelcomeActivity extends AppCompatActivity {
         String nic = intent.getStringExtra(Login1Activity.EXTRA_NIC);
         String regNo = intent.getStringExtra(Login2FActivity.EXTRA_FARMER_REG_NO);
 
+        TextView welcomeText = (TextView) findViewById(R.id.TX_welcome);
+        welcomeText.setText(getResources().getString(R.string.txt_Welcome));
+
         TextView tx_nic = (TextView) findViewById(R.id.TX_nicVal);
         tx_nic.setText(nic);
         TextView tx_regNo = (TextView) findViewById(R.id.TX_regNoVal);

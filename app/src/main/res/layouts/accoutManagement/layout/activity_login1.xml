@@ -67,13 +67,29 @@
                 android:hint="@string/placeholder_nic"
                 android:importantForAutofill="no"
                 android:inputType="textPersonName" />
+
         </androidx.cardview.widget.CardView>
 
+        <TextView
+            android:id="@+id/TX_loginError1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_1_half"
+            android:text="@string/txt_invalidInput"
+            android:textColor="@color/danger_color"
+            android:textStyle="bold"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/CARD_nic" />
+
         <Button
-            android:id="@+id/BT_login"
+            android:id="@+id/BT_login2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_1"
+            android:enabled="false"
+            android:onClick="checkLoginStep1"
             android:shadowColor="@color/black"
             android:shadowDx="15"
             android:shadowDy="15"
@@ -83,8 +99,7 @@
             app:cornerRadius="@dimen/button_1_corner"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/CARD_nic"
-            android:onClick="acceptNIC"/>
+            app:layout_constraintTop_toBottomOf="@+id/TX_loginError1" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/CARD_localeSelector"
