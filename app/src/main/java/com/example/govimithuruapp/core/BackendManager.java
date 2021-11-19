@@ -17,7 +17,7 @@ import java.util.Map;
 
 public class BackendManager {
 
-    private static final String BACKEND_URL = "http://192.168.8.100:8000/";
+    private static final String BACKEND_URL = "https://govimithuru-backend.herokuapp.com/";
     public static final String CLAIM_SUFFIX = "claims/";
 
     private RequestQueue requestQueue;
