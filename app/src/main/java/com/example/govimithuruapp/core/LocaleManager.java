@@ -5,6 +5,8 @@ import android.content.res.Configuration;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.govimithuruapp.accountManagement.AuthController;
+
 import java.util.Locale;
 
 public class LocaleManager {
@@ -25,5 +27,13 @@ public class LocaleManager {
 
     public static void setContextLocale(AppCompatActivity activity) {
         activity.getBaseContext().getResources().updateConfiguration(config, activity.getBaseContext().getResources().getDisplayMetrics());
+    }
+
+    public static void initializeUserLocale() {
+        if (AuthController.getInstance().getCurrentUser().getPreferredLocale() == 's') {
+            LocaleManager.setAppLocaleSinhala();
+        } else {
+            LocaleManager.setAppLocaleEnglish();
+        }
     }
 }

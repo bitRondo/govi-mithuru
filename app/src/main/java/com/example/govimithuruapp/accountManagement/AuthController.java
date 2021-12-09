@@ -24,10 +24,12 @@ public class AuthController {
     }
 
     public boolean saveUser(Context context) {
-        currentUser = new User('f', "a01", "g01", "f001", "Disura", "Panadura",
+        /*
+        currentUser = new User('f', "a01", "g01", "f001", "Disura Warusawithana", "Panadura",
                 "0761234567", "2021V", 's');
-
+        */
         try {
+            System.out.println(String.format("Saving User with %d claims", currentUser.getNumOfClaims()));
             // Save in the path returned by getFilesDir()
             FileOutputStream fos = context.openFileOutput(USER_DATA_FILE, Context.MODE_PRIVATE);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
@@ -75,13 +77,6 @@ public class AuthController {
     public boolean loginStep2 (String regNo) {
         boolean success = regNo.equals(currentUser.getRegNo());
         if (currentUser.getUserType() != 'u') {
-            if (success) {
-                if (currentUser.getPreferredLocale() == 's') {
-                    LocaleManager.setAppLocaleSinhala();
-                } else {
-                    LocaleManager.setAppLocaleEnglish();
-                }
-            }
             return success;
         } else {
             System.out.println("Need to login from remote server");

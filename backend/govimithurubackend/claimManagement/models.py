@@ -1,3 +1,7 @@
+"""
+from claimManagement.models import Claim
+"""
+
 from django.db import models
 
 class Claim(models.Model):

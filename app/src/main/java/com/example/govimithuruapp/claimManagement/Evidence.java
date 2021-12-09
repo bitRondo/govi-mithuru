@@ -4,19 +4,21 @@ import android.location.Location;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Evidence implements Parcelable {
+public class Evidence implements Parcelable, Serializable {
     private String evidenceID;
     private Date date;
-    private Location location;
+    private double latitude, longitude;
     private String description;
     private String photoPath;
 
-    public Evidence(String evidenceID, Date date, Location location, String photoPath) {
+    public Evidence(String evidenceID, Date date, double latitude, double longitude, String photoPath) {
         this.evidenceID = evidenceID;
         this.date = date;
-        this.location = location;
+        this.latitude = latitude;
+        this.longitude = longitude;
         description = "";
         this.photoPath = photoPath;
     }
@@ -24,7 +26,8 @@ public class Evidence implements Parcelable {
     protected Evidence(Parcel in) {
         evidenceID = in.readString();
         date = new Date(in.readLong());
-        location = in.readParcelable(Location.class.getClassLoader());
+        latitude = in.readDouble();
+        longitude = in.readDouble();
         description = in.readString();
         photoPath = in.readString();
     }
@@ -51,8 +54,12 @@ public class Evidence implements Parcelable {
         return date;
     }
 
-    public Location getLocation() {
-        return location;
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
     }
 
     public String getDescription() {
@@ -70,7 +77,8 @@ public class Evidence implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(evidenceID);
         dest.writeLong(date.getTime());
-        dest.writeParcelable(location, flags);
+        dest.writeDouble(latitude);
+        dest.writeDouble(longitude);
         dest.writeString(description);
         dest.writeString(photoPath);
     }

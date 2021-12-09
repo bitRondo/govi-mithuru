@@ -12,10 +12,24 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
+enum State {
+    SUBMISSION_PENDING(0), SUBMITTED(1);
+
+    private int value;
+
+    public int getValue() {
+        return this.value;
+    }
+
+    State (int value) {
+        this.value = value;
+    }
+}
+
 public class Claim implements Parcelable, Serializable {
     private String claimID, topic, agriServiceCenter, gramaNiladhariDiv, farmerRegNo,
         farmerName, farmerAddress, farmerPhone, farmerNIC, landRegNum, landName,
-        crop, bankAccountNo, bank, branch, acceptedFields, damageLevelComment, compensationComment;
+        crop, bankAccountNo, bank, branch, otherCause, acceptedFields, damageLevelComment, compensationComment;
     private int state, damageCause, damageLevel;
     private float landArea, cultivatedArea, timeToHarvest, damageArea, compensationAmount;
     private Date cultivatedDate, damageDate;
@@ -23,8 +37,8 @@ public class Claim implements Parcelable, Serializable {
 
     public Claim (String claimID) {
         this.claimID = claimID;
-        state = 0;
-        acceptedFields = ""; damageLevelComment = ""; compensationComment = "";
+        state = State.SUBMISSION_PENDING.getValue();
+        otherCause = ""; acceptedFields = ""; damageLevelComment = ""; compensationComment = "";
         evidences = new ArrayList<>();
     }
 
@@ -55,6 +69,7 @@ public class Claim implements Parcelable, Serializable {
         landName = in.readString();
         timeToHarvest = in.readFloat();
 
+        otherCause = in.readString();
         acceptedFields = in.readString();
         damageLevelComment = in.readString();
         compensationComment = in.readString();
@@ -83,6 +98,14 @@ public class Claim implements Parcelable, Serializable {
 
     public void setTopic(String topic) {
         this.topic = topic;
+    }
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
     }
 
     public String getAgriServiceCenter() {
@@ -277,6 +300,14 @@ public class Claim implements Parcelable, Serializable {
         return evidences.size() - 1;
     }
 
+    public String getOtherCause() {
+        return otherCause;
+    }
+
+    public void setOtherCause(String otherCause) {
+        this.otherCause = otherCause;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -310,6 +341,7 @@ public class Claim implements Parcelable, Serializable {
         dest.writeString(landName);
         dest.writeFloat(timeToHarvest);
 
+        dest.writeString(otherCause);
         dest.writeString(acceptedFields);
         dest.writeString(damageLevelComment);
         dest.writeString(compensationComment);
@@ -343,11 +375,12 @@ public class Claim implements Parcelable, Serializable {
 
         data.put("gramaNiladhariDiv", gramaNiladhariDiv);
         data.put("address", farmerAddress);
+        data.put("otherCause", otherCause);
 
         if (timeToHarvest > 0) data.put("timeToHarvest", String.valueOf(timeToHarvest));
         if (cultivatedDate != null) data.put("cultivatedDate",
                 UtilityManager.getInstance().formatDate(cultivatedDate));
 
-        BackendManager.getInstance(context).postData(BackendManager.CLAIM_SUFFIX, data);
+        BackendManager.getInstance(context).postData(BackendManager.CLAIM_SUFFIX, data, ClaimManager.SUBMIT_CLAIM);
     }
 }

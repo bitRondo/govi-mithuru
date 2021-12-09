@@ -27,4 +27,10 @@ public class UtilityManager {
         return dateAndTimeFormat.format(date);
     }
 
+    public String padNumber(int number, int padSize, String padCharacter) {
+        String pad = String.format("%d", number);
+        for (int i = pad.length(); i < padSize; i++) pad = padCharacter + pad;
+        return pad;
+    }
+
 }

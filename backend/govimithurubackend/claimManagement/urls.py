@@ -1,10 +1,8 @@
 from django.urls import path
 
-from rest_framework.generics import ListCreateAPIView
-
-from claimManagement.models import Claim
-from claimManagement.serializers import ClaimSerializer
+from .views import ClaimListCreate, ClaimRetrieveUpdateDelete
 
 urlpatterns = [
-    path('', ListCreateAPIView.as_view(queryset=Claim.objects.all(), serializer_class=ClaimSerializer), name='claim_list'),
+    path('', ClaimListCreate.as_view(), name='claim_list'),
+    path('<str:id>', ClaimRetrieveUpdateDelete.as_view(), name='claim_object'),
 ]

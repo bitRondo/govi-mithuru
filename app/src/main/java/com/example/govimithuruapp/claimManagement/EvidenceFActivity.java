@@ -12,6 +12,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -53,6 +54,7 @@ public class EvidenceFActivity extends AppCompatActivity {
     private String currentPhotoPath;
     private String currentEvidenceID;
 
+
     // Initiating the Evidence Submission UI and data
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +84,7 @@ public class EvidenceFActivity extends AppCompatActivity {
     private File createImageFile() throws IOException {
         maxEvidenceCounter++;
         // Create an image file name
-        String imageFileName = claim.getClaimID() + "_" + maxEvidenceCounter;
+        String imageFileName = ClaimManager.getInstance().generateEvidenceID(claim.getClaimID(), maxEvidenceCounter);
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(imageFileName, ".jpg", storageDir);
 
@@ -122,7 +124,8 @@ public class EvidenceFActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
-            Evidence evidence = new Evidence(currentEvidenceID, new Date(), LocationController.getInstance().getLocation(), currentPhotoPath);
+            Location loc = LocationController.getInstance().getLocation();
+            Evidence evidence = new Evidence(currentEvidenceID, new Date(), loc.getLatitude(), loc.getLongitude(), currentPhotoPath);
             claim.addEvidence(evidence);
             evidenceCounter = maxEvidenceCounter;
 
@@ -161,8 +164,8 @@ public class EvidenceFActivity extends AppCompatActivity {
             descText.setText(evidence.getDescription());
             dateText.setText(UtilityManager.getInstance().formatDateAndTime(evidence.getDate()));
             locText.setText(String.format("%.3f, %.3f",
-                    evidence.getLocation().getLatitude(),
-                    evidence.getLocation().getLongitude()));
+                    evidence.getLatitude(),
+                    evidence.getLongitude()));
         } else {
             imageView.setImageResource(android.R.drawable.ic_menu_gallery);
             dateText.setText("");
@@ -218,18 +221,19 @@ public class EvidenceFActivity extends AppCompatActivity {
     }
 
     public void finalizeClaim(View view) {
-        System.out.println("Need to send");
-        claim.postClaimToBackend(this);
+        ClaimManager.getInstance().submitClaim(claim, this);
+        Intent data = new Intent();
+        setResult(RESULT_OK, data);
+        super.finish();
     }
 
     // Going back to Claim details page
     @Override
     public void finish() {
+        Intent data = new Intent();
         if (evidenceCounter >= 0)
             claim.getEvidence(evidenceCounter).setDescription(descText.getText().toString());
-        Intent data = new Intent();
         data.putExtra(CLAIM_OBJECT, (Parcelable) claim);
-
         setResult(RESULT_OK, data);
         super.finish();
     }
@@ -242,7 +246,7 @@ public class EvidenceFActivity extends AppCompatActivity {
             } else {
                 // attempt to get permissions
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    requestPermissions(new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_FINE_LOCATION);
+                    requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_FINE_LOCATION);
                 }
             }
         }

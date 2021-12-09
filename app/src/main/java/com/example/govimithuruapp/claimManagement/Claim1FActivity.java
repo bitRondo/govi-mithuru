@@ -47,6 +47,8 @@ public class Claim1FActivity extends AppCompatActivity implements AdapterView.On
     private EditText e0, e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11, e12, e13, e14, e15, e16;
     private static EditText[] mandatoryInputs;
 
+    private boolean causeIsOther = false;
+
     private final TextWatcher mandatoryWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -64,6 +66,8 @@ public class Claim1FActivity extends AppCompatActivity implements AdapterView.On
             for (EditText input : mandatoryInputs) {
                 if (input.getText().toString().length() == 0) shouldEnable = false;
             }
+            if (causeIsOther && eOtherCause.getText().toString().length() == 0)
+                shouldEnable = false;
             submitEvidenceButton.setEnabled(shouldEnable);
         }
     };
@@ -83,6 +87,23 @@ public class Claim1FActivity extends AppCompatActivity implements AdapterView.On
         public void afterTextChanged(Editable s) {
             String text = e0.getText().toString();
             tTopic.setText(text);
+        }
+    };
+
+    private final TextWatcher causeWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            mandatoryWatcher.afterTextChanged(s);
         }
     };
 
@@ -118,6 +139,8 @@ public class Claim1FActivity extends AppCompatActivity implements AdapterView.On
 
         mandatoryInputs = new EditText[] {e0, e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11, e12, e13, e14};
         for (EditText input : mandatoryInputs) input.addTextChangedListener(mandatoryWatcher);
+
+        eOtherCause.addTextChangedListener(causeWatcher);
 
         tTopic = (TextView) findViewById(R.id.TX_claimTopic);
         e0.addTextChangedListener(topicWatcher);
@@ -175,7 +198,8 @@ public class Claim1FActivity extends AppCompatActivity implements AdapterView.On
             }
         });
 
-        claim = new Claim("0001");
+        claim = ClaimManager.getInstance().createNewClaim();
+        System.out.println(claim.getClaimID());
         autoFillFormData();
     }
 
@@ -224,6 +248,7 @@ public class Claim1FActivity extends AppCompatActivity implements AdapterView.On
 
         claim.setGramaNiladhariDiv(e15.getText().toString());
         claim.setFarmerAddress(e16.getText().toString());
+        claim.setOtherCause(eOtherCause.getText().toString());
 
         EditText e17 = (EditText) findViewById(R.id.ED_landName);
         claim.setLandName(e17.getText().toString());
@@ -246,7 +271,8 @@ public class Claim1FActivity extends AppCompatActivity implements AdapterView.On
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == SUBMIT_EVIDENCE && resultCode == RESULT_OK) {
             if (data != null) {
-                claim = (Claim) data.getParcelableExtra(CLAIM_OBJECT);
+                if (data.hasExtra(CLAIM_OBJECT)) claim = (Claim) data.getParcelableExtra(CLAIM_OBJECT);
+                else finish();
             }
         }
     }
@@ -256,9 +282,15 @@ public class Claim1FActivity extends AppCompatActivity implements AdapterView.On
         if (position == 5) {
             tBrieflyExplain.setVisibility(View.VISIBLE);
             eOtherCause.setVisibility(View.VISIBLE);
+
+            eOtherCause.setText("");
+            causeIsOther = true;
+            mandatoryWatcher.afterTextChanged(null);
         } else {
             tBrieflyExplain.setVisibility(View.GONE);
             eOtherCause.setVisibility(View.GONE);
+            causeIsOther = false;
+            mandatoryWatcher.afterTextChanged(null);
         }
     }
 

@@ -31,10 +31,25 @@ public class WelcomeActivity extends AppCompatActivity {
         tx_nic.setText(nic);
         TextView tx_regNo = (TextView) findViewById(R.id.TX_regNoVal);
         tx_regNo.setText(regNo);
+
+        System.out.println(AuthController.getInstance().getCurrentUser().getAllClaims().size());
     }
 
     public void openNewClaim(View view) {
         Intent intent = new Intent(this, Claim1FActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onRestart() {
+        AuthController.getInstance().saveUser(this);
+        System.out.println(AuthController.getInstance().getCurrentUser().getAllClaims().size());
+        super.onRestart();
+    }
+
+    @Override
+    public void finish() {
+        AuthController.getInstance().saveUser(this);
+        super.finish();
     }
 }

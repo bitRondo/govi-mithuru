@@ -8,6 +8,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.govimithuruapp.claimManagement.ClaimManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -47,7 +48,7 @@ public class BackendManager {
         getRequestQueue().add(req);
     }
 
-    public void postData(String suffix, HashMap<String, String> data) {
+    public void postData(String suffix, HashMap<String, String> data, int actionCode) {
         String url = BACKEND_URL + suffix;
         System.out.println(url);
 
@@ -57,7 +58,10 @@ public class BackendManager {
                     public void onResponse(JSONObject response) {
                         System.out.println("POST Success!");
                         try {
-                            System.out.println(response.getString("claimID"));
+                            if (actionCode == ClaimManager.SUBMIT_CLAIM) {
+                                System.out.println(response.getString("claimID"));
+                                ClaimManager.getInstance().saveClaimInUser();
+                            }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
