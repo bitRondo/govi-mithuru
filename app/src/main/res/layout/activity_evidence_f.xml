@@ -192,8 +192,12 @@
 
             <Button
                 android:id="@+id/BTN_finalize"
-                android:layout_width="@dimen/image_thumb_width"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_1"
+                android:layout_marginLeft="@dimen/margin_1"
+                android:layout_marginEnd="@dimen/margin_1"
+                android:layout_marginRight="@dimen/margin_1"
                 android:layout_marginBottom="@dimen/margin_2"
                 android:onClick="finalizeClaim"
                 android:text="@string/txt_finalize"
