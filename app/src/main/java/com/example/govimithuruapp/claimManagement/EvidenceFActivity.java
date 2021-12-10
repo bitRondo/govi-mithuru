@@ -43,11 +43,11 @@ public class EvidenceFActivity extends AppCompatActivity {
     private static final int CAMERA_REQUEST = 1;
 
     private ImageView imageView;
-    private FloatingActionButton prevBtn, nextBtn;
+    private FloatingActionButton prevBtn, nextBtn, cameraBtn;
     private Button removeBtn, finalizeBtn;
     private CardView descCard;
     private EditText descText;
-    private TextView dateText, locText;
+    private TextView maxAllowed;
 
     private Claim claim;
     private int evidenceCounter, maxEvidenceCounter;
@@ -55,6 +55,8 @@ public class EvidenceFActivity extends AppCompatActivity {
     private String currentEvidenceID;
 
     private boolean viewing;
+
+    public static final int MAX_EVIDENCES_ALLOWED = 5;
 
     // Initiating the Evidence Submission UI and data
     @Override
@@ -72,9 +74,9 @@ public class EvidenceFActivity extends AppCompatActivity {
         prevBtn = (FloatingActionButton) findViewById(R.id.BT_prevEvidence);
         nextBtn = (FloatingActionButton) findViewById(R.id.BT_nextEvidence);
         removeBtn = (Button) findViewById(R.id.BT_remove_evidence);
+        cameraBtn = (FloatingActionButton) findViewById(R.id.BT_camera);
         finalizeBtn = (Button) findViewById(R.id.BTN_finalize);
-        dateText = (TextView) findViewById(R.id.TX_evidenceDate);
-        locText = (TextView) findViewById(R.id.TX_evidenceLocation);
+        maxAllowed = (TextView) findViewById(R.id.TX_maxAllowed);
 
         if (claim.getState() > 0) {
             viewing = true;
@@ -171,14 +173,8 @@ public class EvidenceFActivity extends AppCompatActivity {
             Bitmap bitmap = BitmapFactory.decodeFile(photoPath, bmOptions);
             imageView.setImageBitmap(bitmap);
             descText.setText(evidence.getDescription());
-            dateText.setText(UtilityManager.getInstance().formatDateAndTime(evidence.getDate()));
-            locText.setText(String.format("%.3f, %.3f",
-                    evidence.getLatitude(),
-                    evidence.getLongitude()));
         } else {
             imageView.setImageResource(android.R.drawable.ic_menu_gallery);
-            dateText.setText("");
-            locText.setText("");
         }
         setButtons();
     }
@@ -214,6 +210,7 @@ public class EvidenceFActivity extends AppCompatActivity {
         nextBtn.setVisibility(View.INVISIBLE);
         removeBtn.setVisibility(View.INVISIBLE);
         finalizeBtn.setVisibility(View.INVISIBLE);
+        cameraBtn.setVisibility(View.VISIBLE);
         if (evidenceCounter == 0) {
             removeBtn.setVisibility(View.VISIBLE);
             finalizeBtn.setVisibility(View.VISIBLE);
@@ -227,7 +224,16 @@ public class EvidenceFActivity extends AppCompatActivity {
         if (evidenceCounter < maxEvidenceCounter) {
             nextBtn.setVisibility(View.VISIBLE);
         }
+        maxAllowed.setText(getResources().getString(R.string.txt_maxAllowed, MAX_EVIDENCES_ALLOWED,
+                (MAX_EVIDENCES_ALLOWED-maxEvidenceCounter-1)));
+        if (maxEvidenceCounter == -1) maxAllowed.setText("");
+        if (maxEvidenceCounter == (MAX_EVIDENCES_ALLOWED-1)) {
+            cameraBtn.setVisibility(View.INVISIBLE);
+            maxAllowed.setText(getResources().getString(R.string.txt_noMoreEvidences));
+        }
         if (viewing) {
+            cameraBtn.setVisibility(View.INVISIBLE);
+            maxAllowed.setVisibility(View.INVISIBLE);
             removeBtn.setVisibility(View.GONE);
             finalizeBtn.setVisibility(View.GONE);
         }
@@ -269,9 +275,6 @@ public class EvidenceFActivity extends AppCompatActivity {
     }
 
     private void adjustForViewingEvidences() {
-        FloatingActionButton cameraBtn = (FloatingActionButton) findViewById(R.id.BT_camera);
-        cameraBtn.setVisibility(View.GONE);
-
         TextView title = (TextView) findViewById(R.id.TX_submitEvidence);
         title.setText(getResources().getString(R.string.txt_includedEvidences));
 

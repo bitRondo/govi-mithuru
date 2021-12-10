@@ -86,4 +86,6 @@
     <string name="txt_includedEvidences">Included Evidences</string>
     <string name="txt_myClaims">My Claims</string>
     <string name="txt_noClaims">No Claims.</string>
+    <string name="txt_maxAllowed">Allowed maximum number of evidences is %1$d. You can submit %2$d more.</string>
+    <string name="txt_noMoreEvidences">You have submitted the maximum allowed number of evidences.</string>
 </resources>

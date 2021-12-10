@@ -67,4 +67,6 @@
     <string name="txt_includedEvidences">යෙදූ සාක්ෂි</string>
     <string name="txt_myClaims">මගේ ඉල්ලුම්පත්</string>
     <string name="txt_noClaims">ඉල්ලුම්පත් නොමැත</string>
+    <string name="txt_maxAllowed">යෙදිය හැකි උපරිම සාක්ෂි ගණන %1$dකි. ඔබට තව %2$dක් යෙදිය හැක.</string>
+    <string name="txt_noMoreEvidences">ඔබ උපරිම සාක්ෂි ගණන යොදා ඇත.</string>
 </resources>
