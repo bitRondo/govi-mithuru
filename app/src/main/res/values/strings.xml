@@ -4,8 +4,8 @@
     <string name="placeholder_agriOfficerNo">Agri Officer Reg. No.</string>
     <string name="btnText_login">Login</string>
     <string name="btnText_register">Register New Account</string>
-    <string name="locale_selector_EN" translatable="false">EN</string>
-    <string name="locale_selector_SI" translatable="false">සිං</string>
+    <string name="locale_selector_EN" translatable="false">ENGLISH</string>
+    <string name="locale_selector_SI" translatable="false">සිංහල</string>
     <string name="app_title_govi">Govi</string>
     <string name="app_title_mithuru">Mithuru</string>
     <string name="btnText_submit">Submit</string>

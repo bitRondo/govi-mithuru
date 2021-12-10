@@ -31,23 +31,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/BT_settings"
-            android:layout_width="@dimen/settings_btn_size"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_1"
-            android:layout_marginEnd="@dimen/margin_1"
-            android:layout_marginRight="@dimen/margin_1"
-            android:clickable="true"
-            android:contentDescription="@string/settings_button_desc"
-            android:focusable="true"
-            android:scaleType="center"
-            app:backgroundTint="@color/app_color_3"
-            app:fabSize="mini"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@android:drawable/ic_menu_preferences" />
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/LAY_pageContent"
             android:layout_width="0dp"

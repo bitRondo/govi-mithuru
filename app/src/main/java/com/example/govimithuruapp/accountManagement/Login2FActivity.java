@@ -19,9 +19,10 @@ public class Login2FActivity extends AppCompatActivity {
     public static final String EXTRA_FARMER_REG_NO = "com.example.govimithuruapp.FARMER_REG_NO";
     private String nic = "";
 
-    private EditText eRegNo;
-    private Button bLogin;
+    private EditText eRegNo, ed_nic;
+    private Button bLogin, bLocale;
     private TextView tLoginError;
+    private Intent intent;
 
     private final TextWatcher watcher = new TextWatcher() {
         @Override
@@ -45,16 +46,18 @@ public class Login2FActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login2_f);
 
-        Intent intent = getIntent();
+        intent = getIntent();
         nic = intent.getStringExtra(Login1Activity.EXTRA_NIC);
 
-        EditText ed_nic = (EditText) findViewById(R.id.ED_nic);
+        ed_nic = (EditText) findViewById(R.id.ED_nic);
         ed_nic.setText(nic);
 
         eRegNo = (EditText) findViewById(R.id.ED_farmerNo);
         bLogin = (Button) findViewById(R.id.BT_login2);
+        bLocale = (Button) findViewById(R.id.BT_toggleLan2);
         tLoginError = (TextView) findViewById(R.id.TX_loginError2);
 
+        bLocale.setText(LocaleManager.getToggleText(this));
         eRegNo.addTextChangedListener(watcher);
     }
 
@@ -77,5 +80,28 @@ public class Login2FActivity extends AppCompatActivity {
     private void showError() {
         tLoginError.setVisibility(View.VISIBLE);
         eRegNo.setText("");
+    }
+
+    private void setView() {
+        setContentView(R.layout.activity_login2_f);
+
+        intent = getIntent();
+        nic = intent.getStringExtra(Login1Activity.EXTRA_NIC);
+
+        ed_nic = (EditText) findViewById(R.id.ED_nic);
+        ed_nic.setText(nic);
+
+        eRegNo = (EditText) findViewById(R.id.ED_farmerNo);
+        bLogin = (Button) findViewById(R.id.BT_login2);
+        bLocale = (Button) findViewById(R.id.BT_toggleLan2);
+        tLoginError = (TextView) findViewById(R.id.TX_loginError2);
+
+        bLocale.setText(LocaleManager.getToggleText(this));
+        eRegNo.addTextChangedListener(watcher);
+    }
+
+    public void toggleLocale(View view) {
+        LocaleManager.toggleLocale(this);
+        setView();
     }
 }

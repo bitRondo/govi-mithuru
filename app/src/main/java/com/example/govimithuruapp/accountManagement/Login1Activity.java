@@ -12,15 +12,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.govimithuruapp.R;
-
-import static com.example.govimithuruapp.core.LocaleManager.setAppLocaleEnglish;
-import static com.example.govimithuruapp.core.LocaleManager.setAppLocaleSinhala;
+import com.example.govimithuruapp.core.LocaleManager;
 
 public class Login1Activity extends AppCompatActivity {
     public static final String EXTRA_NIC = "com.example.govimithuruapp.NIC";
 
     private EditText eNIC;
-    private Button bSubmit;
+    private Button bSubmit, bLocale;
     private TextView tLoginError;
 
     private final TextWatcher watcher = new TextWatcher() {
@@ -47,8 +45,10 @@ public class Login1Activity extends AppCompatActivity {
 
         eNIC = (EditText) findViewById(R.id.ED_nic);
         bSubmit = (Button) findViewById(R.id.BT_login2);
+        bLocale = (Button) findViewById(R.id.BT_toggleLan1);
         tLoginError = (TextView) findViewById(R.id.TX_loginError1);
 
+        bLocale.setText(LocaleManager.getToggleText(this));
         eNIC.addTextChangedListener(watcher);
     }
 
@@ -81,19 +81,15 @@ public class Login1Activity extends AppCompatActivity {
 
         eNIC = (EditText) findViewById(R.id.ED_nic);
         bSubmit = (Button) findViewById(R.id.BT_login2);
+        bLocale = (Button) findViewById(R.id.BT_toggleLan1);
         tLoginError = (TextView) findViewById(R.id.TX_loginError1);
 
+        bLocale.setText(LocaleManager.getToggleText(this));
         eNIC.addTextChangedListener(watcher);
-
     }
 
-    public void changeLocaleToEN(View view) {
-        setAppLocaleEnglish(this);
-        setView();
-    }
-
-    public void changeLocaleToSI(View view) {
-        setAppLocaleSinhala(this);
+    public void toggleLocale(View view) {
+        LocaleManager.toggleLocale(this);
         setView();
     }
 

@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.example.govimithuruapp.R;
 import com.example.govimithuruapp.claimManagement.Claim;
 import com.example.govimithuruapp.claimManagement.Claim1FActivity;
+import com.example.govimithuruapp.core.LocaleManager;
 
 import java.util.HashSet;
 import java.util.Map;
@@ -22,7 +23,8 @@ public class WelcomeActivity extends AppCompatActivity {
     private LinearLayout linearLayout;
     private HashSet<String> claimsToView;
     private final LayoutParams layoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-    private TextView myClaims;
+    private TextView myClaims, welcomeText;
+    private Button bLocale;
 
     public static final String VIEW_CLAIM_ID = "com.example.govimithuruapp.CLAIM_ID";
 
@@ -31,8 +33,11 @@ public class WelcomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
 
-        TextView welcomeText = (TextView) findViewById(R.id.TX_welcome);
+        welcomeText = (TextView) findViewById(R.id.TX_welcome);
         welcomeText.setText(getResources().getString(R.string.txt_Welcome));
+
+        bLocale = (Button) findViewById(R.id.BT_toggleLan3);
+        bLocale.setText(LocaleManager.getToggleText(this));
 
         myClaims = (TextView) findViewById(R.id.TX_myClaims);
         layoutParams.setMargins(0, 0, 0, 16);
@@ -83,5 +88,26 @@ public class WelcomeActivity extends AppCompatActivity {
     protected void onRestart() {
         refresh(null);
         super.onRestart();
+    }
+
+    private void setView() {
+        setContentView(R.layout.activity_welcome);
+
+        welcomeText = (TextView) findViewById(R.id.TX_welcome);
+        welcomeText.setText(getResources().getString(R.string.txt_Welcome));
+
+        bLocale = (Button) findViewById(R.id.BT_toggleLan3);
+        bLocale.setText(LocaleManager.getToggleText(this));
+
+        myClaims = (TextView) findViewById(R.id.TX_myClaims);
+        layoutParams.setMargins(0, 0, 0, 16);
+        this.linearLayout = (LinearLayout) findViewById(R.id.LINLAY_claims);
+        claimsToView = new HashSet<>();
+        showClaims();
+    }
+
+    public void toggleLocale(View view) {
+        LocaleManager.toggleLocale(this);
+        setView();
     }
 }

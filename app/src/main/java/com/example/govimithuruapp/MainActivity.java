@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
             LocaleManager.initializeUserLocale(this);
             intent = new Intent(this, WelcomeActivity.class);
         } else {
+            LocaleManager.initializeAppLocaleToEN(this);
             intent = new Intent(this, Login1Activity.class);
         }
         startActivity(intent);
