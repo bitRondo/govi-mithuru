@@ -66,8 +66,6 @@ public class Login2FActivity extends AppCompatActivity {
         boolean success = AuthController.getInstance().loginStep2(farmerRegNo);
         if (success) {
             Intent intent = new Intent(this, WelcomeActivity.class);
-            intent.putExtra(Login1Activity.EXTRA_NIC, nic);
-            intent.putExtra(EXTRA_FARMER_REG_NO, farmerRegNo);
             startActivity(intent);
         } else {
             showError();

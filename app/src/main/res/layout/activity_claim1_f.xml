@@ -403,6 +403,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
 
+                    <EditText
+                        android:id="@+id/ED_viewDamageCause"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:editable="false"
+                        android:ems="10"
+                        android:inputType="textPersonName"
+                        android:visibility="gone" />
+
                     <TextView
                         android:id="@+id/TX_brieflyExplain"
                         android:layout_width="match_parent"
@@ -430,6 +439,15 @@
                         android:id="@+id/SPINNER_damageLevel"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
+
+                    <EditText
+                        android:id="@+id/ED_viewDamageLevel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:editable="false"
+                        android:ems="10"
+                        android:inputType="textPersonName"
+                        android:visibility="gone" />
 
                     <TextView
                         android:id="@+id/TX_areaOfDamage"

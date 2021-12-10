@@ -2,6 +2,7 @@ package com.example.govimithuruapp.core;
 
 import android.content.Context;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -60,7 +61,7 @@ public class BackendManager {
                         try {
                             if (actionCode == ClaimManager.SUBMIT_CLAIM) {
                                 System.out.println(response.getString("claimID"));
-                                ClaimManager.getInstance().saveClaimInUser();
+                                ClaimManager.getInstance().saveClaimInUser(ctx.getApplicationContext());
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -74,6 +75,7 @@ public class BackendManager {
                 System.out.println(error.getMessage());
             }
         });
+        request.setRetryPolicy(new DefaultRetryPolicy(5000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         addToRequestQueue(request);
     }
 

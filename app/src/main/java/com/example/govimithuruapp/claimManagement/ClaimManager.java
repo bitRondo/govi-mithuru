@@ -43,11 +43,12 @@ public class ClaimManager {
         claim.postClaimToBackend(context);
     }
 
-    public void saveClaimInUser() {
+    public void saveClaimInUser(Context context) {
         Claim claim = submissionQueue.poll();
         if (claim != null) {
             claim.setState(State.SUBMITTED.getValue());
             AuthController.getInstance().getCurrentUser().addClaim(claim.getClaimID(), claim);
+            AuthController.getInstance().saveUser(context);
         }
     }
 }

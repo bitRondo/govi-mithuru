@@ -61,4 +61,10 @@
     <string name="txt_topicExplain">සිදුවූ හානිය සඳහන් කරමින් මෙම ඉල්ලුම්පත සඳහා කෙටි මාතෘකාවක් යොදන්න.</string>
     <string name="txt_defaultClaimTopic">%1$s දිනැති වන්දි ඉල්ලුම්පත</string>
     <string name="txt_finalize">සම්පූර්ණ කරන්න</string>
+    <string name="txt_dataAsAt">%1$s වනවිට තොරතුරු</string>
+    <string name="txt_refresh">අලුත් ම තතු ගන්න</string>
+    <string name="txt_viewEvidences">සාක්ෂි බලන්න</string>
+    <string name="txt_includedEvidences">යෙදූ සාක්ෂි</string>
+    <string name="txt_myClaims">මගේ ඉල්ලුම්පත්</string>
+    <string name="txt_noClaims">ඉල්ලුම්පත් නොමැත</string>
 </resources>

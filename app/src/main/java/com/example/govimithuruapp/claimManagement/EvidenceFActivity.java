@@ -54,6 +54,7 @@ public class EvidenceFActivity extends AppCompatActivity {
     private String currentPhotoPath;
     private String currentEvidenceID;
 
+    private boolean viewing;
 
     // Initiating the Evidence Submission UI and data
     @Override
@@ -64,7 +65,6 @@ public class EvidenceFActivity extends AppCompatActivity {
         Intent intent = getIntent();
         claim = (Claim) intent.getParcelableExtra(CLAIM_OBJECT);
         maxEvidenceCounter = claim.getNumOfEvidences();
-        evidenceCounter = maxEvidenceCounter;
 
         imageView = (ImageView) findViewById(R.id.IMG_evidence);
         descCard = (CardView) findViewById(R.id.CARD_evidence_desc);
@@ -76,8 +76,17 @@ public class EvidenceFActivity extends AppCompatActivity {
         dateText = (TextView) findViewById(R.id.TX_evidenceDate);
         locText = (TextView) findViewById(R.id.TX_evidenceLocation);
 
-        if (maxEvidenceCounter >= 0) viewEvidence(claim.getEvidence(maxEvidenceCounter));
-        initializeLocationController();
+        if (claim.getState() > 0) {
+            viewing = true;
+            evidenceCounter = 0;
+            adjustForViewingEvidences();
+            viewEvidence(claim.getEvidence(evidenceCounter));
+        } else {
+            viewing = false;
+            evidenceCounter = maxEvidenceCounter;
+            if (maxEvidenceCounter >= 0) viewEvidence(claim.getEvidence(maxEvidenceCounter));
+            initializeLocationController();
+        }
     }
 
     // Create a temporary file to hold the capturing image
@@ -218,9 +227,15 @@ public class EvidenceFActivity extends AppCompatActivity {
         if (evidenceCounter < maxEvidenceCounter) {
             nextBtn.setVisibility(View.VISIBLE);
         }
+        if (viewing) {
+            removeBtn.setVisibility(View.GONE);
+            finalizeBtn.setVisibility(View.GONE);
+        }
     }
 
     public void finalizeClaim(View view) {
+        if (evidenceCounter >= 0)
+            claim.getEvidence(evidenceCounter).setDescription(descText.getText().toString());
         ClaimManager.getInstance().submitClaim(claim, this);
         Intent data = new Intent();
         setResult(RESULT_OK, data);
@@ -251,6 +266,16 @@ public class EvidenceFActivity extends AppCompatActivity {
             }
         }
         LocationController.getInstance().attachActivity(this);
+    }
+
+    private void adjustForViewingEvidences() {
+        FloatingActionButton cameraBtn = (FloatingActionButton) findViewById(R.id.BT_camera);
+        cameraBtn.setVisibility(View.GONE);
+
+        TextView title = (TextView) findViewById(R.id.TX_submitEvidence);
+        title.setText(getResources().getString(R.string.txt_includedEvidences));
+
+        descText.setKeyListener(null);
     }
 
     @Override

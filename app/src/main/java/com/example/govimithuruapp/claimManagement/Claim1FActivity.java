@@ -26,6 +26,8 @@ import com.example.govimithuruapp.core.UtilityManager;
 import java.util.Calendar;
 import java.util.Date;
 
+import static com.example.govimithuruapp.accountManagement.WelcomeActivity.VIEW_CLAIM_ID;
+
 public class Claim1FActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     public static final String CLAIM_OBJECT = "com.example.govimithuruapp.CLAIM_OBJECT";
@@ -44,8 +46,10 @@ public class Claim1FActivity extends AppCompatActivity implements AdapterView.On
     private TextView tBrieflyExplain;
     private EditText eOtherCause;
     private Button submitEvidenceButton;
-    private EditText e0, e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11, e12, e13, e14, e15, e16;
+    private EditText e0, e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11, e12, e13, e14, e15, e16, e17, e18;
     private static EditText[] mandatoryInputs;
+    private Spinner damageCauses, damageLevels;
+    private ArrayAdapter<CharSequence> causesAdapter, levelsAdapter;
 
     private boolean causeIsOther = false;
 
@@ -113,7 +117,8 @@ public class Claim1FActivity extends AppCompatActivity implements AdapterView.On
         setContentView(R.layout.activity_claim1_f);
 
         submitEvidenceButton = (Button) findViewById(R.id.BTN_submitEvidence);
-        submitEvidenceButton.setEnabled(false);
+
+        tTopic = (TextView) findViewById(R.id.TX_claimTopic);
 
         e0 = (EditText) findViewById(R.id.ED_claimTopic);
         e1 = (EditText) findViewById(R.id.ED_agriServiceCenter);
@@ -131,34 +136,54 @@ public class Claim1FActivity extends AppCompatActivity implements AdapterView.On
         e13= (EditText) findViewById(R.id.ED_bank);
         e14 = (EditText) findViewById(R.id.ED_branch);
 
+        mandatoryInputs = new EditText[] {e0, e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11, e12, e13, e14};
+
         e15 = (EditText) findViewById(R.id.ED_gramaNiladhariDiv);
         e16 = (EditText) findViewById(R.id.ED_farmerAddress);
+        e17 = (EditText) findViewById(R.id.ED_landName);
+        e18 = (EditText) findViewById(R.id.ED_timeToHarvest);
 
         eOtherCause = (EditText) findViewById(R.id.ED_otherCause);
         tBrieflyExplain = (TextView) findViewById(R.id.TX_brieflyExplain);
 
-        mandatoryInputs = new EditText[] {e0, e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11, e12, e13, e14};
+        damageCauses = (Spinner) findViewById(R.id.SPINNER_damageCause);
+        damageLevels = (Spinner) findViewById(R.id.SPINNER_damageLevel);
+
+        eCultDate = (EditText) findViewById(R.id.ED_cultivationDate);
+        eDamDate = (EditText) findViewById(R.id.ED_damageDate);
+
+        causesAdapter = ArrayAdapter.createFromResource(this,
+                R.array.array_damageCauses, android.R.layout.simple_spinner_item);
+
+        levelsAdapter = ArrayAdapter.createFromResource(this,
+                R.array.array_damageLevel, android.R.layout.simple_spinner_item);
+
+        Intent intent = getIntent();
+        String possibleID = intent.getStringExtra(VIEW_CLAIM_ID);
+        if (possibleID.length() > 0) {
+            claim = AuthController.getInstance().getCurrentUser().getClaim(possibleID);
+            adjustForViewingClaim();
+        } else {
+            claim = ClaimManager.getInstance().createNewClaim();
+            adjustForNewClaim();
+        }
+        System.out.println(claim.getClaimID());
+    }
+
+    private void adjustForNewClaim() {
+        submitEvidenceButton.setEnabled(false);
+
         for (EditText input : mandatoryInputs) input.addTextChangedListener(mandatoryWatcher);
-
         eOtherCause.addTextChangedListener(causeWatcher);
-
-        tTopic = (TextView) findViewById(R.id.TX_claimTopic);
         e0.addTextChangedListener(topicWatcher);
 
-        Spinner damageCauses = (Spinner) findViewById(R.id.SPINNER_damageCause);
-        ArrayAdapter<CharSequence> causesAdapter = ArrayAdapter.createFromResource(this,
-                R.array.array_damageCauses, android.R.layout.simple_spinner_item);
         causesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         damageCauses.setAdapter(causesAdapter);
         damageCauses.setOnItemSelectedListener(this);
 
-        Spinner damageLevels = (Spinner) findViewById(R.id.SPINNER_damageLevel);
-        ArrayAdapter<CharSequence> levelsAdapter = ArrayAdapter.createFromResource(this,
-                R.array.array_damageLevel, android.R.layout.simple_spinner_item);
         levelsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         damageLevels.setAdapter(levelsAdapter);
 
-        eCultDate = (EditText) findViewById(R.id.ED_cultivationDate);
         DatePickerDialog.OnDateSetListener cultListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -178,7 +203,6 @@ public class Claim1FActivity extends AppCompatActivity implements AdapterView.On
             }
         });
 
-        eDamDate = (EditText) findViewById(R.id.ED_damageDate);
         DatePickerDialog.OnDateSetListener damListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -198,9 +222,64 @@ public class Claim1FActivity extends AppCompatActivity implements AdapterView.On
             }
         });
 
-        claim = ClaimManager.getInstance().createNewClaim();
-        System.out.println(claim.getClaimID());
         autoFillFormData();
+    }
+
+    private void adjustForViewingClaim() {
+        TextView topicSection = (TextView) findViewById(R.id.TX_topicSection);
+        TextView topicExplain = (TextView) findViewById(R.id.TX_topicExplain);
+
+        topicSection.setVisibility(View.GONE);
+        topicExplain.setVisibility(View.GONE);
+        e0.setVisibility(View.GONE);
+
+        damageCauses.setVisibility(View.GONE);
+        damageLevels.setVisibility(View.GONE);
+
+        EditText causeView = (EditText) findViewById(R.id.ED_viewDamageCause);
+        EditText levelView = (EditText) findViewById(R.id.ED_viewDamageLevel);
+
+        causeView.setVisibility(View.VISIBLE);
+        levelView.setVisibility(View.VISIBLE);
+
+        tTopic.setText(claim.getTopic());
+
+        e1.setText(claim.getAgriServiceCenter());
+        e2.setText(claim.getFarmerRegNo());
+        e3.setText(claim.getFarmerName());
+        e4.setText(claim.getFarmerPhone());
+        e5.setText(claim.getFarmerNIC());
+        e6.setText(claim.getLandRegNum());
+        e7.setText(String.valueOf(claim.getLandArea()));
+        e8.setText(claim.getCrop());
+        e9.setText(String.valueOf(claim.getCultivatedArea()));
+        e10.setText(String.valueOf(claim.getDamageArea()));
+        e11.setText(String.valueOf(claim.getCompensationAmount()));
+        e12.setText(claim.getBankAccountNo());
+        e13.setText(claim.getBank());
+        e14.setText(claim.getBranch());
+
+        e15.setText(claim.getGramaNiladhariDiv());
+        e16.setText(claim.getFarmerAddress());
+        e17.setText(claim.getLandName());
+        String tth = (claim.getTimeToHarvest() > 0) ? String.valueOf(claim.getTimeToHarvest()) : "";
+        e18.setText(tth);
+
+        if (claim.getDamageCause() < 5) causeView.setText(causesAdapter.getItem(claim.getDamageCause()));
+        else causeView.setText(claim.getOtherCause());
+
+        levelView.setText(levelsAdapter.getItem(claim.getDamageLevel()));
+
+        eCultDate.setText(UtilityManager.getInstance().formatDate(claim.getCultivatedDate()));
+        eDamDate.setText(UtilityManager.getInstance().formatDate(claim.getDamageDate()));
+
+        for (EditText input : mandatoryInputs) {
+            input.setKeyListener(null);
+        }
+        e15.setKeyListener(null); e16.setKeyListener(null); e17.setKeyListener(null); e18.setKeyListener(null);
+        causeView.setKeyListener(null); levelView.setKeyListener(null);
+
+        submitEvidenceButton.setText(getResources().getString(R.string.txt_viewEvidences));
     }
 
     private void updateCultEd() {
@@ -250,13 +329,10 @@ public class Claim1FActivity extends AppCompatActivity implements AdapterView.On
         claim.setFarmerAddress(e16.getText().toString());
         claim.setOtherCause(eOtherCause.getText().toString());
 
-        EditText e17 = (EditText) findViewById(R.id.ED_landName);
         claim.setLandName(e17.getText().toString());
-        EditText e18 = (EditText) findViewById(R.id.ED_timeToHarvest);
         float tth = (!e18.getText().toString().equals("")) ? Float.parseFloat(e18.getText().toString()) : 0;
         claim.setTimeToHarvest(tth);
-        EditText e19 = (EditText) findViewById(R.id.ED_cultivationDate);
-        if (e19.getText().toString().length() > 0) claim.setCultivatedDate(CULT_CAL.getTime());
+        if (eCultDate.getText().toString().length() > 0) claim.setCultivatedDate(CULT_CAL.getTime());
     }
 
     public void submitEvidence(View view) {

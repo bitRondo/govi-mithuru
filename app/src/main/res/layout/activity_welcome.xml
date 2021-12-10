@@ -4,70 +4,133 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/login_screen_background"
     tools:context=".accountManagement.WelcomeActivity">
 
-    <TextView
-        android:id="@+id/TX_welcome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_2"
-        android:layout_marginLeft="@dimen/margin_2"
-        android:layout_marginTop="@dimen/margin_2"
-        android:text="@string/txt_Welcome"
-        android:textColor="@color/app_color_1"
-        android:textSize="@dimen/page_title_text_size"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/LAY_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/alpha_white">
 
-    <TextView
-        android:id="@+id/TX_nicTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_2"
-        android:layout_marginLeft="@dimen/margin_2"
-        android:layout_marginTop="@dimen/margin_3"
-        android:text="Your NIC:"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TX_welcome" />
+        <TextView
+            android:id="@+id/TX_appTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_1"
+            android:layout_marginLeft="@dimen/margin_1"
+            android:layout_marginTop="@dimen/margin_1"
+            android:text="@string/app_name"
+            android:textColor="@color/app_color_1"
+            android:textSize="@dimen/app_title_text_size"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/TX_nicVal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_2"
-        android:layout_marginLeft="@dimen/margin_2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TX_nicTitle" />
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/BT_settings"
+            android:layout_width="@dimen/settings_btn_size"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_1"
+            android:layout_marginEnd="@dimen/margin_1"
+            android:layout_marginRight="@dimen/margin_1"
+            android:clickable="true"
+            android:contentDescription="@string/settings_button_desc"
+            android:focusable="true"
+            android:scaleType="center"
+            app:backgroundTint="@color/app_color_3"
+            app:fabSize="mini"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@android:drawable/ic_menu_preferences" />
 
-    <TextView
-        android:id="@+id/TX_regNoTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_2"
-        android:layout_marginLeft="@dimen/margin_2"
-        android:layout_marginTop="@dimen/margin_2"
-        android:text="Your Reg. No. :"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TX_nicVal" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/LAY_pageContent"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/margin_1"
+            android:layout_marginLeft="@dimen/margin_1"
+            android:layout_marginTop="@dimen/margin_1"
+            android:layout_marginEnd="@dimen/margin_1"
+            android:layout_marginRight="@dimen/margin_1"
+            android:layout_marginBottom="@dimen/margin_1"
+            android:background="@color/alpha2_white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TX_appTitle">
 
-    <TextView
-        android:id="@+id/TX_regNoVal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_2"
-        android:layout_marginLeft="@dimen/margin_2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TX_regNoTitle" />
+            <TextView
+                android:id="@+id/TX_welcome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_1"
+                android:text="@string/txt_Welcome"
+                android:textColor="@color/app_color_1"
+                android:textSize="@dimen/page_title_text_size"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/BTN_newClaim"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="32dp"
-        android:onClick="openNewClaim"
-        android:text="@string/txt_new_claim"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/TX_regNoTitle" />
+            <Button
+                android:id="@+id/BTN_newClaim"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_2"
+                android:onClick="openNewClaim"
+                android:text="@string/txt_new_claim"
+                android:textColor="@color/black"
+                app:backgroundTint="@color/app_color_4"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <Button
+                android:id="@+id/BTN_refresh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_2"
+                android:onClick="refresh"
+                android:text="@string/txt_refresh"
+                android:textColor="@color/white"
+                app:backgroundTint="@color/app_color_2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/TX_welcome" />
+
+            <TextView
+                android:id="@+id/TX_myClaims"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_2"
+                android:textSize="@dimen/form_section_text_size"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/BTN_refresh" />
+
+            <ScrollView
+                android:id="@+id/SCROLL_claims"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginStart="@dimen/margin_1"
+                android:layout_marginLeft="@dimen/margin_1"
+                android:layout_marginTop="@dimen/margin_1"
+                android:layout_marginEnd="@dimen/margin_1"
+                android:layout_marginRight="@dimen/margin_1"
+                android:layout_marginBottom="@dimen/margin_2"
+                app:layout_constraintBottom_toTopOf="@+id/BTN_newClaim"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/TX_myClaims">
+
+                <LinearLayout
+                    android:id="@+id/LINLAY_claims"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical" />
+            </ScrollView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

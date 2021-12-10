@@ -80,4 +80,10 @@
     <string name="txt_topicExplain">Include a brief topic to this claim, mentioning the damage.</string>
     <string name="txt_defaultClaimTopic">Claim Request on %1$s</string>
     <string name="txt_finalize">Finalize</string>
+    <string name="txt_dataAsAt">Data as at %1$s</string>
+    <string name="txt_refresh">Refresh Data</string>
+    <string name="txt_viewEvidences">View Evidences</string>
+    <string name="txt_includedEvidences">Included Evidences</string>
+    <string name="txt_myClaims">My Claims</string>
+    <string name="txt_noClaims">No Claims.</string>
 </resources>

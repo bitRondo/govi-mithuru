@@ -100,9 +100,9 @@
                 android:id="@+id/LAY_evidence"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_1"
+                android:layout_marginTop="@dimen/margin_3"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/BT_camera">
+                app:layout_constraintTop_toBottomOf="@+id/TX_submitEvidence">
 
                 <ImageView
                     android:id="@+id/IMG_evidence"
