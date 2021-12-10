@@ -11,6 +11,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.govimithuruapp.accountManagement.AuthController;
 import com.example.govimithuruapp.claimManagement.ClaimManager;
 
 import org.json.JSONException;
@@ -26,10 +27,22 @@ public class BackendManager {
     public static final String EVIDENCE_SUFFIX = "evidences/";
 
     private RequestQueue requestQueue;
-    private static Context ctx;
+
+    private Context ctx;
 
     // Singleton
     private static BackendManager instance;
+
+    private BackendManager() {}
+
+    public static synchronized BackendManager getInstance(Context context) {
+        if (instance == null) instance = new BackendManager();
+        instance.ctx = context;
+        return instance;
+    }
+
+    /*
+    private static Context ctx;
 
     private BackendManager(Context context) {
         ctx = context;
@@ -39,6 +52,7 @@ public class BackendManager {
         if (instance == null) instance = new BackendManager(context);
         return instance;
     }
+     */
 
     private RequestQueue getRequestQueue() {
         if (requestQueue == null) {
@@ -120,6 +134,35 @@ public class BackendManager {
                 return params;
             }
         };
+        request.setRetryPolicy(new DefaultRetryPolicy(5000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        addToRequestQueue(request);
+    }
+
+    public void getData(String suffix, int actionCode) {
+        String url = BACKEND_URL + suffix;
+        System.out.println(url);
+
+        JsonObjectRequest request = new JsonObjectRequest(url, null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        System.out.println("GET success!");
+                        if (actionCode == AuthController.LOGIN_STEP_1)
+                            AuthController.getInstance().completeLoginStep1(response, ctx, true);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        System.out.println("Error!");
+                        System.out.println(error.networkResponse);
+                        System.out.println(error.getMessage());
+                        if (error.networkResponse.statusCode == 404) {
+                            if (actionCode == AuthController.LOGIN_STEP_1)
+                                AuthController.getInstance().completeLoginStep1(null, ctx, false);
+                        }
+                    }
+                });
         request.setRetryPolicy(new DefaultRetryPolicy(5000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         addToRequestQueue(request);
     }

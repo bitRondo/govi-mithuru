@@ -104,4 +104,16 @@ public class User implements Serializable {
     public void updateClaim(String claimID, Claim claim) {
         this.claims.put(claimID, claim);
     }
+
+    // Mapping from server-side UserType (1:f, 2:a)
+    public static char mapUserType(int type) {
+        if (type == 1) return 'f';
+        return 'a';
+    }
+
+    // Mapping from server-side PreferredLocale ("SI":'s', "EN", 'e')
+    public static char mapPreferredLocale(String locale) {
+        if (locale.equals("SI")) return 's';
+        return 'e';
+    }
 }

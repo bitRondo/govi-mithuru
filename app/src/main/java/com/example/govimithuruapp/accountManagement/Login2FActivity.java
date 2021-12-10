@@ -12,8 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.govimithuruapp.R;
-
-import static com.example.govimithuruapp.core.LocaleManager.setContextLocale;
+import com.example.govimithuruapp.core.LocaleManager;
 
 public class Login2FActivity extends AppCompatActivity {
 
@@ -38,14 +37,12 @@ public class Login2FActivity extends AppCompatActivity {
         @Override
         public void afterTextChanged(Editable s) {
             bLogin.setEnabled(eRegNo.getText().toString().length() > 0);
-            tLoginError.setVisibility(View.GONE);
         }
     };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContextLocale(this);
         setContentView(R.layout.activity_login2_f);
 
         Intent intent = getIntent();
@@ -63,10 +60,15 @@ public class Login2FActivity extends AppCompatActivity {
 
     public void checkLoginStep2F(View view) {
         String farmerRegNo = eRegNo.getText().toString();
+        tLoginError.setVisibility(View.GONE);
         boolean success = AuthController.getInstance().loginStep2(farmerRegNo);
         if (success) {
+            AuthController.getInstance().saveUser(this);
+            LocaleManager.initializeUserLocale(this);
+
             Intent intent = new Intent(this, WelcomeActivity.class);
             startActivity(intent);
+            finish();
         } else {
             showError();
         }

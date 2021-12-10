@@ -17,8 +17,6 @@ import com.example.govimithuruapp.claimManagement.Claim1FActivity;
 import java.util.HashSet;
 import java.util.Map;
 
-import static com.example.govimithuruapp.core.LocaleManager.setContextLocale;
-
 public class WelcomeActivity extends AppCompatActivity {
 
     private LinearLayout linearLayout;
@@ -31,7 +29,6 @@ public class WelcomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContextLocale(this);
         setContentView(R.layout.activity_welcome);
 
         TextView welcomeText = (TextView) findViewById(R.id.TX_welcome);
@@ -78,7 +75,6 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     public void refresh(View view) {
-        System.out.println("Refresh");
         AuthController.getInstance().getSavedUser(this);
         showClaims();
     }

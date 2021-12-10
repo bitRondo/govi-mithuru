@@ -15,7 +15,6 @@ import com.example.govimithuruapp.R;
 
 import static com.example.govimithuruapp.core.LocaleManager.setAppLocaleEnglish;
 import static com.example.govimithuruapp.core.LocaleManager.setAppLocaleSinhala;
-import static com.example.govimithuruapp.core.LocaleManager.setContextLocale;
 
 public class Login1Activity extends AppCompatActivity {
     public static final String EXTRA_NIC = "com.example.govimithuruapp.NIC";
@@ -55,14 +54,18 @@ public class Login1Activity extends AppCompatActivity {
 
     public void checkLoginStep1(View view) {
         String nic = eNIC.getText().toString();
-        boolean success = AuthController.getInstance().loginStep1(this, nic);
+        AuthController.getInstance().loginStep1(this, nic);
+    }
+
+    public void setResultOfLoginStep1(boolean success) {
         if (success) {
             char userType = AuthController.getInstance().getCurrentUser().getUserType();
             Intent intent;
             if (userType == 'f') intent = new Intent(this, Login2FActivity.class);
             else intent = new Intent(this, Login2AActivity.class);
-            intent.putExtra(EXTRA_NIC, nic);
+            intent.putExtra(EXTRA_NIC, AuthController.getInstance().getCurrentUser().getNIC());
             startActivity(intent);
+            finish();
         } else {
             showError();
         }
@@ -85,14 +88,12 @@ public class Login1Activity extends AppCompatActivity {
     }
 
     public void changeLocaleToEN(View view) {
-        setAppLocaleEnglish();
-        setContextLocale(this);
+        setAppLocaleEnglish(this);
         setView();
     }
 
     public void changeLocaleToSI(View view) {
-        setAppLocaleSinhala();
-        setContextLocale(this);
+        setAppLocaleSinhala(this);
         setView();
     }
 

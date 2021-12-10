@@ -2,7 +2,11 @@ package com.example.govimithuruapp.accountManagement;
 
 import android.content.Context;
 
+import com.example.govimithuruapp.core.BackendManager;
 import com.example.govimithuruapp.core.LocaleManager;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -13,10 +17,14 @@ public class AuthController {
     private static User currentUser;
     private static final String USER_DATA_FILE = "userdata.ser";
 
+    public static final String USER_URL = "users/";
+    public static final int LOGIN_STEP_1 = 101;
+
     // Singleton
     private static AuthController instance;
 
-    private AuthController() { }
+    private AuthController() {
+    }
 
     public static AuthController getInstance() {
         if (instance == null) instance = new AuthController();
@@ -24,12 +32,8 @@ public class AuthController {
     }
 
     public boolean saveUser(Context context) {
-        /*
-        currentUser = new User('f', "a01", "g01", "f001", "Disura Warusawithana", "Panadura",
-                "0761234567", "2021V", 's');
-        */
         try {
-            System.out.println(String.format("Saving User with %d claims", currentUser.getNumOfClaims()));
+            System.out.println("Saving User");
             // Save in the path returned by getFilesDir()
             FileOutputStream fos = context.openFileOutput(USER_DATA_FILE, Context.MODE_PRIVATE);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
@@ -47,41 +51,57 @@ public class AuthController {
         return currentUser;
     }
 
-    public boolean getSavedUser(Context context) {
+    public User getSavedUser(Context context) {
         try {
             FileInputStream fis = context.openFileInput(USER_DATA_FILE);
             ObjectInputStream ois = new ObjectInputStream(fis);
             currentUser = (User) ois.readObject();
             ois.close();
             fis.close();
-            return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            currentUser = new User('u', 'e');
+            saveUser(context);
         }
-        return false;
+        return currentUser;
     }
 
-    public boolean loginStep1 (Context context, String nic) {
+    public void completeLoginStep1(JSONObject o, Context context, boolean success) {
+        if (success) {
+            try {
+                currentUser = new User(
+                        User.mapUserType(Integer.parseInt(o.getString("userType"))),
+                        o.getString("agriServiceCenter"),
+                        o.getString("gramaNiladhariDiv"),
+                        o.getString("regNo"),
+                        o.getString("name"),
+                        o.getString("address"),
+                        o.getString("phone"),
+                        o.getString("nic"),
+                        User.mapPreferredLocale(o.getString("preferredLocale")));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        Login1Activity activity = (Login1Activity) context;
+        activity.setResultOfLoginStep1(success);
+    }
+
+    public void loginStep1(Context context, String nic) {
         if (currentUser == null) getSavedUser(context);
         // Case 1: Logging in from locally available user data (userType == 'f' or 'a')
         if (currentUser.getUserType() != 'u') {
-            return nic.equals(currentUser.getNIC());
+            Login1Activity activity = (Login1Activity) context;
+            activity.setResultOfLoginStep1(nic.equals(currentUser.getNIC()));
         }
         // Case 2: Logging in from remote server
         else {
             System.out.println("Need to login from remote server");
+            BackendManager.getInstance(context).getData(String.format("%s%s", USER_URL, nic), LOGIN_STEP_1);
         }
-        return false;
     }
 
-    public boolean loginStep2 (String regNo) {
-        boolean success = regNo.equals(currentUser.getRegNo());
-        if (currentUser.getUserType() != 'u') {
-            return success;
-        } else {
-            System.out.println("Need to login from remote server");
-        }
-        return false;
+    public boolean loginStep2(String regNo) {
+        return regNo.equals(currentUser.getRegNo());
     }
 
 }

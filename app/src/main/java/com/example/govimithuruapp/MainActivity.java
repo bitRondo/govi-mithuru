@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import com.example.govimithuruapp.accountManagement.AuthController;
 import com.example.govimithuruapp.accountManagement.Login1Activity;
+import com.example.govimithuruapp.accountManagement.User;
 import com.example.govimithuruapp.accountManagement.WelcomeActivity;
 import com.example.govimithuruapp.core.LocaleManager;
 
@@ -16,14 +17,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-//        boolean saved = AuthController.getInstance().saveUser(this);
-
-        //boolean gotUser = AuthController.getInstance().getSavedUser(this) && false;
-        boolean gotUser = AuthController.getInstance().getSavedUser(this);
+        User user = AuthController.getInstance().getSavedUser(this);
         Intent intent;
-        if (gotUser) {
+        if ((user != null) && (user.getUserType() != 'u')) {
+            LocaleManager.initializeUserLocale(this);
             intent = new Intent(this, WelcomeActivity.class);
-            LocaleManager.initializeUserLocale();
         } else {
             intent = new Intent(this, Login1Activity.class);
         }

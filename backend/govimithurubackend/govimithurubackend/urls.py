@@ -19,13 +19,14 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
-from accountManagement.views import index
+from accountManagement.views import *
 from claimManagement.views import *
 
 urlpatterns = [
     path('', index, name='index_view'),
     path('admin/', admin.site.urls),
-    # path('users/', include('accountManagement.urls')),
+    path('users/', UserListCreate.as_view(), name='users'),
+    path('users/<str:nic>', UserRetrieveUpdateDelete.as_view(), name='user_object'),
     path('claims/', ClaimListCreate.as_view(), name='claim_list'),
     path('claims/<str:id>', ClaimRetrieveUpdateDelete.as_view(), name='claim_object'),
     path('evidences/', EvidenceModelViewSet.as_view({'get':'list', 'post':'create'}), name='evidences'),
