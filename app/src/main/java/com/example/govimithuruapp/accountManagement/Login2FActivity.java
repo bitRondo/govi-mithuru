@@ -57,6 +57,8 @@ public class Login2FActivity extends AppCompatActivity {
         bLocale = (Button) findViewById(R.id.BT_toggleLan2);
         tLoginError = (TextView) findViewById(R.id.TX_loginError2);
 
+        ed_nic.setEnabled(false);
+        eRegNo.requestFocus();
         bLocale.setText(LocaleManager.getToggleText(this));
         eRegNo.addTextChangedListener(watcher);
     }
@@ -96,6 +98,8 @@ public class Login2FActivity extends AppCompatActivity {
         bLocale = (Button) findViewById(R.id.BT_toggleLan2);
         tLoginError = (TextView) findViewById(R.id.TX_loginError2);
 
+        ed_nic.setEnabled(false);
+        eRegNo.requestFocus();
         bLocale.setText(LocaleManager.getToggleText(this));
         eRegNo.addTextChangedListener(watcher);
     }
