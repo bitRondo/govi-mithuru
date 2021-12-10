@@ -288,6 +288,10 @@ public class Claim implements Parcelable, Serializable {
         evidences.add(evidence);
     }
 
+    public ArrayList<Evidence> getAllEvidences() {
+        return this.evidences;
+    }
+
     public Evidence getEvidence(int index) {
         return evidences.get(index);
     }
@@ -377,10 +381,12 @@ public class Claim implements Parcelable, Serializable {
         data.put("address", farmerAddress);
         data.put("otherCause", otherCause);
 
+        data.put("evidenceCount", String.valueOf(evidences.size()));
+
         if (timeToHarvest > 0) data.put("timeToHarvest", String.valueOf(timeToHarvest));
         if (cultivatedDate != null) data.put("cultivatedDate",
                 UtilityManager.getInstance().formatDate(cultivatedDate));
 
-        BackendManager.getInstance(context).postData(BackendManager.CLAIM_SUFFIX, data, ClaimManager.SUBMIT_CLAIM);
+        BackendManager.getInstance(context).postTextData(BackendManager.CLAIM_SUFFIX, data, ClaimManager.SUBMIT_CLAIM);
     }
 }

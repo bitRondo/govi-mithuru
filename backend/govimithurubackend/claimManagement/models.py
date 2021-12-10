@@ -205,3 +205,43 @@ class Claim(models.Model):
         max_length=250,
         blank=True,
     )
+
+    evidenceCount = models.IntegerField(
+        'Number of evidences in this claim',
+        default=1,
+    )
+
+def getImageFilePath(instance, filename):
+    return f"images/{instance.evidenceID}.jpg"
+
+class Evidence(models.Model):
+
+    evidenceID = models.CharField(
+        'Evidence ID',
+        max_length=250,
+        help_text='Required',
+        unique=True
+    )
+
+    date = models.DateField(
+        'Date taken'
+    )
+
+    latitude = models.FloatField(
+        'Latitude'
+    )
+
+    longitude = models.FloatField(
+        'Longitude'
+    )
+
+    description = models.CharField(
+        'Evidence Description',
+        max_length=500,
+        blank=True
+    )
+
+    image = models.ImageField(
+        'Evidence Image',
+        upload_to=getImageFilePath
+    )

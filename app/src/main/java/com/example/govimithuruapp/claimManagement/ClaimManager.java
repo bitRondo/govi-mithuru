@@ -33,14 +33,11 @@ public class ClaimManager {
         return new Claim(claimID);
     }
 
-    public String generateEvidenceID(String claimID, int counter) {
-        return String.format("%s_%s", claimID, UtilityManager.getInstance().padNumber(counter, PAD_SIZE, PAD_CHAR));
-    }
-
     public void submitClaim(Claim claim, Context context) {
         submissionQueue.add(claim);
         System.out.println("Need to send");
         claim.postClaimToBackend(context);
+        EvidenceManager.getInstance().uploadEvidences(claim, context);
     }
 
     public void saveClaimInUser(Context context) {

@@ -93,7 +93,7 @@ public class EvidenceFActivity extends AppCompatActivity {
     private File createImageFile() throws IOException {
         maxEvidenceCounter++;
         // Create an image file name
-        String imageFileName = ClaimManager.getInstance().generateEvidenceID(claim.getClaimID(), maxEvidenceCounter);
+        String imageFileName = EvidenceManager.getInstance().generateEvidenceID(claim.getClaimID(), maxEvidenceCounter);
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(imageFileName, ".jpg", storageDir);
 

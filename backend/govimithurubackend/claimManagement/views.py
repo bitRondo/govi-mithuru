@@ -1,11 +1,12 @@
 from django.http.response import Http404
-from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
+from rest_framework.viewsets import ModelViewSet
+from django.shortcuts import get_object_or_404
 
-from claimManagement.models import Claim
-from claimManagement.serializers import ClaimSerializer
+from claimManagement.models import Claim, Evidence
+from claimManagement.serializers import ClaimSerializer, EvidenceSerializer
 
 class ClaimListCreate(APIView):
     """
@@ -52,4 +53,25 @@ class ClaimRetrieveUpdateDelete(APIView):
     def delete(self, request, id, format=None):
         claim = self.get_object(id)
         claim.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+class EvidenceModelViewSet(ModelViewSet):
+    queryset = Evidence.objects.all()
+    serializer_class = EvidenceSerializer
+
+    def get_object(self, evidenceID):
+        try:
+            return Evidence.objects.get(evidenceID=evidenceID)
+        except Evidence.DoesNotExist:
+            raise Http404
+
+    def retrieve(self, request, id):
+        queryset = Evidence.objects.all()
+        evidence = get_object_or_404(queryset, evidenceID=id)
+        serializer = EvidenceSerializer(evidence)
+        return Response(serializer.data)
+
+    def destroy(self, request, id):
+        evidence = self.get_object(id)
+        evidence.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)

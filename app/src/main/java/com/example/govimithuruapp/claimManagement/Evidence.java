@@ -1,11 +1,19 @@
 package com.example.govimithuruapp.claimManagement;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.example.govimithuruapp.core.BackendManager;
+import com.example.govimithuruapp.core.UtilityManager;
+
+import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashMap;
 
 public class Evidence implements Parcelable, Serializable {
     private String evidenceID;
@@ -13,6 +21,8 @@ public class Evidence implements Parcelable, Serializable {
     private double latitude, longitude;
     private String description;
     private String photoPath;
+
+    public static final int IMAGE_COMPRESSION_RATIO = 80;
 
     public Evidence(String evidenceID, Date date, double latitude, double longitude, String photoPath) {
         this.evidenceID = evidenceID;
@@ -81,5 +91,24 @@ public class Evidence implements Parcelable, Serializable {
         dest.writeDouble(longitude);
         dest.writeString(description);
         dest.writeString(photoPath);
+    }
+
+    public byte[] getEvidenceImage() {
+        Bitmap bitmap = BitmapFactory.decodeFile(this.photoPath);
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, IMAGE_COMPRESSION_RATIO, byteArrayOutputStream);
+        return byteArrayOutputStream.toByteArray();
+    }
+
+    public void postEvidenceToBackend(Context context) {
+        HashMap<String, String> textData = new HashMap<>();
+        textData.put("evidenceID", evidenceID);
+        textData.put("date", UtilityManager.getInstance().formatDate(date));
+        textData.put("latitude", String.valueOf(latitude));
+        textData.put("longitude", String.valueOf(longitude));
+        textData.put("description", description);
+
+        BackendManager.getInstance(context).postImageData(BackendManager.EVIDENCE_SUFFIX,
+                getEvidenceImage(), textData, EvidenceManager.SUBMIT_EVIDENCE);
     }
 }
