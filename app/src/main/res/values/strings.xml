@@ -31,12 +31,12 @@
     <string name="txt_landDetails">Details of the land</string>
     <string name="txt_landRegNo">Land Registration No.</string>
     <string name="txt_landName">Name of the Land</string>
-    <string name="txt_areaOfLand">Area of the Land</string>
+    <string name="txt_areaOfLand">Area of the Land (in hectares)</string>
     <string name="txt_cultivationDetails">Details of the cultivation</string>
     <string name="txt_crop">Cultivated crop</string>
     <string name="txt_cultivationDate">Date of cultivation</string>
-    <string name="txt_areaOfCultivation">Area of cultivation</string>
-    <string name="txt_timeToHarvest">Time to yield harvest</string>
+    <string name="txt_areaOfCultivation">Area of cultivation (in hectares)</string>
+    <string name="txt_timeToHarvest">Time to yield harvest (in months)</string>
     <string name="txt_months">months</string>
     <string name="txt_damageDetails">Details of the damage</string>
     <string name="txt_damageDate">Date of damage</string>
@@ -51,10 +51,10 @@
     <string name="txt_completeDamage">Complete damage</string>
     <string name="txt_partialDamage">Partial damage</string>
     <string name="txt_minorDamage">Minor damage</string>
-    <string name="txt_areaOfDamage">Area of damage</string>
+    <string name="txt_areaOfDamage">Area of damage (in hectares)</string>
     <string name="txt_perches">perches</string>
     <string name="txt_compensationDetails">Details of the compensation</string>
-    <string name="txt_amountRequested">Amount requested</string>
+    <string name="txt_amountRequested">Amount requested (LKR)</string>
     <string name="txt_rupees">LKR</string>
     <string name="txt_bankAccountNo">Bank account No.</string>
     <string name="txt_bank">Bank</string>
@@ -79,7 +79,7 @@
     <string name="txt_claimTopic">Topic</string>
     <string name="txt_topicExplain">Include a brief topic to this claim, mentioning the damage.</string>
     <string name="txt_defaultClaimTopic">Claim Request on %1$s</string>
-    <string name="txt_finalize">Finalize</string>
+    <string name="txt_finalize">Finalize Claim</string>
     <string name="txt_dataAsAt">Data as at %1$s</string>
     <string name="txt_refresh">Refresh Data</string>
     <string name="txt_viewEvidences">View Evidences</string>
@@ -88,4 +88,6 @@
     <string name="txt_noClaims">No Claims.</string>
     <string name="txt_maxAllowed">Allowed maximum number of evidences is %1$d. You can submit %2$d more.</string>
     <string name="txt_noMoreEvidences">You have submitted the maximum allowed number of evidences.</string>
+    <string name="txt_finalizeClaim">Finalizing Claim</string>
+    <string name="txt_sendClaim">Send Claim</string>
 </resources>

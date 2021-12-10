@@ -13,6 +13,7 @@ public class ClaimManager {
     public static final int SUBMIT_CLAIM = 100;
 
     private PriorityQueue<Claim> submissionQueue;
+    private Claim currentClaim;
 
     // Singleton
     private static ClaimManager instance;
@@ -31,6 +32,14 @@ public class ClaimManager {
                 AuthController.getInstance().getCurrentUser().getNumOfClaims() + 1, PAD_SIZE, PAD_CHAR);
         claimID = String.format("%s_%s", AuthController.getInstance().getCurrentUser().getRegNo(), claimID);
         return new Claim(claimID);
+    }
+
+    public Claim getCurrentClaim() {
+        return currentClaim;
+    }
+
+    public void setCurrentClaim(Claim currentClaim) {
+        this.currentClaim = currentClaim;
     }
 
     public void submitClaim(Claim claim, Context context) {

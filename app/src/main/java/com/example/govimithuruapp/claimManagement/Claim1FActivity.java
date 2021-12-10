@@ -30,7 +30,7 @@ import static com.example.govimithuruapp.accountManagement.WelcomeActivity.VIEW_
 
 public class Claim1FActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    public static final String CLAIM_OBJECT = "com.example.govimithuruapp.CLAIM_OBJECT";
+    public static final String VIEWING_CLAIM = "com.example.govimithuruapp.VIEWING_CLAIM";
     public static final int SUBMIT_EVIDENCE = 100;
 
     private static final Calendar CULT_CAL = Calendar.getInstance();
@@ -338,7 +338,7 @@ public class Claim1FActivity extends AppCompatActivity implements AdapterView.On
     public void submitEvidence(View view) {
         Intent intent = new Intent(this, EvidenceFActivity.class);
         extractFormData();
-        intent.putExtra(CLAIM_OBJECT, (Parcelable) claim);
+        ClaimManager.getInstance().setCurrentClaim(claim);
         startActivityForResult(intent, SUBMIT_EVIDENCE);
     }
 
@@ -346,9 +346,9 @@ public class Claim1FActivity extends AppCompatActivity implements AdapterView.On
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == SUBMIT_EVIDENCE && resultCode == RESULT_OK) {
+            claim = ClaimManager.getInstance().getCurrentClaim();
             if (data != null) {
-                if (data.hasExtra(CLAIM_OBJECT)) claim = (Claim) data.getParcelableExtra(CLAIM_OBJECT);
-                else finish();
+                if (!data.hasExtra(VIEWING_CLAIM)) finish();
             }
         }
     }

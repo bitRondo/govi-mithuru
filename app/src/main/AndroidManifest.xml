@@ -11,8 +11,7 @@
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="18" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -21,7 +20,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.GoviMithuruApp">
-        <activity android:name=".claimManagement.Claim1FActivity"></activity>
+        <activity android:name=".claimManagement.Claim2FActivity"></activity>
+        <activity android:name=".claimManagement.Claim1FActivity" />
         <activity android:name=".claimManagement.EvidenceFActivity" />
         <activity android:name=".accountManagement.WelcomeActivity" />
         <activity android:name=".accountManagement.Login2FActivity" />

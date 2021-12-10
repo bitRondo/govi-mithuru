@@ -35,7 +35,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 
-import static com.example.govimithuruapp.claimManagement.Claim1FActivity.CLAIM_OBJECT;
+import static com.example.govimithuruapp.claimManagement.Claim1FActivity.VIEWING_CLAIM;
 import static com.example.govimithuruapp.core.LocationController.PERMISSIONS_FINE_LOCATION;
 
 public class EvidenceFActivity extends AppCompatActivity {
@@ -64,8 +64,7 @@ public class EvidenceFActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_evidence_f);
 
-        Intent intent = getIntent();
-        claim = (Claim) intent.getParcelableExtra(CLAIM_OBJECT);
+        claim = ClaimManager.getInstance().getCurrentClaim();
         maxEvidenceCounter = claim.getNumOfEvidences();
 
         imageView = (ImageView) findViewById(R.id.IMG_evidence);
@@ -242,7 +241,12 @@ public class EvidenceFActivity extends AppCompatActivity {
     public void finalizeClaim(View view) {
         if (evidenceCounter >= 0)
             claim.getEvidence(evidenceCounter).setDescription(descText.getText().toString());
-        ClaimManager.getInstance().submitClaim(claim, this);
+        // Go To Finalize Page
+        Intent finalize = new Intent(this, Claim2FActivity.class);
+        ClaimManager.getInstance().setCurrentClaim(claim);
+        startActivity(finalize);
+
+        // Go Back
         Intent data = new Intent();
         setResult(RESULT_OK, data);
         super.finish();
@@ -254,7 +258,8 @@ public class EvidenceFActivity extends AppCompatActivity {
         Intent data = new Intent();
         if (evidenceCounter >= 0)
             claim.getEvidence(evidenceCounter).setDescription(descText.getText().toString());
-        data.putExtra(CLAIM_OBJECT, (Parcelable) claim);
+        ClaimManager.getInstance().setCurrentClaim(claim);
+        if (viewing) data.putExtra(VIEWING_CLAIM, 1);
         setResult(RESULT_OK, data);
         super.finish();
     }

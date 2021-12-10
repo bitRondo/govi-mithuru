@@ -271,7 +271,7 @@
                         android:layout_height="wrap_content"
                         android:ems="10"
                         android:hint="@string/placeholder_mandatory"
-                        android:inputType="number"
+                        android:inputType="number|numberDecimal"
                         android:textColorHint="@color/danger_color" />
 
                     <TextView
@@ -329,7 +329,7 @@
                         android:layout_height="wrap_content"
                         android:ems="10"
                         android:hint="@string/placeholder_mandatory"
-                        android:inputType="number"
+                        android:inputType="number|numberDecimal"
                         android:textColorHint="@color/danger_color" />
 
                     <TextView
@@ -343,7 +343,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ems="10"
-                        android:inputType="number" />
+                        android:inputType="number|numberDecimal" />
 
                     <TextView
                         android:id="@+id/TX_damageDetails"
@@ -444,7 +444,7 @@
                         android:layout_height="wrap_content"
                         android:ems="10"
                         android:hint="@string/placeholder_mandatory"
-                        android:inputType="number"
+                        android:inputType="number|numberDecimal"
                         android:textColorHint="@color/danger_color" />
 
                     <TextView
@@ -469,7 +469,7 @@
                         android:layout_height="wrap_content"
                         android:ems="10"
                         android:hint="@string/placeholder_mandatory"
-                        android:inputType="number"
+                        android:inputType="number|numberDecimal"
                         android:textColorHint="@color/danger_color" />
 
                     <TextView
