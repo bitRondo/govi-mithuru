@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.example.govimithuruapp.R;
 import com.example.govimithuruapp.claimManagement.Claim;
 import com.example.govimithuruapp.claimManagement.Claim1FActivity;
+import com.example.govimithuruapp.core.BackendManager;
 import com.example.govimithuruapp.core.LocaleManager;
 
 import java.util.HashSet;
@@ -43,8 +44,7 @@ public class WelcomeActivity extends AppCompatActivity {
         layoutParams.setMargins(0, 0, 0, 16);
         this.linearLayout = (LinearLayout) findViewById(R.id.LINLAY_claims);
         claimsToView = new HashSet<>();
-
-        refresh(null);
+        showClaims();
     }
 
     public void openNewClaim(View view) {
@@ -80,6 +80,7 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     public void refresh(View view) {
+        BackendManager.getInstance(this).getData(BackendManager.CLAIM_SUFFIX, BackendManager.ActionCodes.ONLY_CHECKING);
         AuthController.getInstance().getSavedUser(this);
         showClaims();
     }

@@ -10,7 +10,6 @@ import java.util.PriorityQueue;
 public class ClaimManager {
     public static final int PAD_SIZE = 4;
     public static final String PAD_CHAR = "0";
-    public static final int SUBMIT_CLAIM = 100;
 
     private PriorityQueue<Claim> submissionQueue;
     private Claim currentClaim;

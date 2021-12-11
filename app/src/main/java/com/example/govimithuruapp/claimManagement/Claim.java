@@ -387,6 +387,6 @@ public class Claim implements Parcelable, Serializable {
         if (cultivatedDate != null) data.put("cultivatedDate",
                 UtilityManager.getInstance().formatDate(cultivatedDate));
 
-        BackendManager.getInstance(context).postTextData(BackendManager.CLAIM_SUFFIX, data, ClaimManager.SUBMIT_CLAIM);
+        BackendManager.getInstance(context).postTextData(BackendManager.CLAIM_SUFFIX, data, BackendManager.ActionCodes.SUBMIT_CLAIM);
     }
 }

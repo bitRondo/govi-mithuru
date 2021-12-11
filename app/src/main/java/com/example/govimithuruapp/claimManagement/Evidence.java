@@ -109,6 +109,6 @@ public class Evidence implements Parcelable, Serializable {
         textData.put("description", description);
 
         BackendManager.getInstance(context).postImageData(BackendManager.EVIDENCE_SUFFIX,
-                getEvidenceImage(), textData, EvidenceManager.SUBMIT_EVIDENCE);
+                getEvidenceImage(), textData, BackendManager.ActionCodes.SUBMIT_EVIDENCE);
     }
 }

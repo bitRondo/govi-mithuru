@@ -8,7 +8,6 @@ public class EvidenceManager {
 
     public static final int PAD_SIZE = 4;
     public static final String PAD_CHAR = "0";
-    public static final int SUBMIT_EVIDENCE = 200;
 
     // Singleton
     private static EvidenceManager instance;

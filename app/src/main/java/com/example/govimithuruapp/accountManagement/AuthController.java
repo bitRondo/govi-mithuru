@@ -18,7 +18,6 @@ public class AuthController {
     private static final String USER_DATA_FILE = "userdata.ser";
 
     public static final String USER_URL = "users/";
-    public static final int LOGIN_STEP_1 = 101;
 
     // Singleton
     private static AuthController instance;
@@ -96,7 +95,7 @@ public class AuthController {
         // Case 2: Logging in from remote server
         else {
             System.out.println("Need to login from remote server");
-            BackendManager.getInstance(context).getData(String.format("%s%s", USER_URL, nic), LOGIN_STEP_1);
+            BackendManager.getInstance(context).getData(String.format("%s%s", USER_URL, nic), BackendManager.ActionCodes.LOGIN_STEP_1);
         }
     }
 
