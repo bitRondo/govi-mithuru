@@ -111,4 +111,9 @@ public class WelcomeActivity extends AppCompatActivity {
         LocaleManager.toggleLocale(this);
         setView();
     }
+
+    public void logout (View view) {
+        AuthController.getInstance().logoutUser(this);
+        finish();
+    }
 }

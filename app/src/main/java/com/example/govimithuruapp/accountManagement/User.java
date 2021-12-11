@@ -12,6 +12,8 @@ public class User implements Serializable {
     private String regNo;
     private String name, address, phone, nic;
 
+    private boolean isAuthenticated;
+
     private char preferredLocale;
 
     private HashMap<String, Claim> claims;
@@ -103,6 +105,14 @@ public class User implements Serializable {
 
     public void updateClaim(String claimID, Claim claim) {
         this.claims.put(claimID, claim);
+    }
+
+    public boolean isAuthenticated() {
+        return isAuthenticated;
+    }
+
+    public void setAuthenticated(boolean authenticated) {
+        isAuthenticated = authenticated;
     }
 
     // Mapping from server-side UserType (1:f, 2:a)

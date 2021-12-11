@@ -35,6 +35,7 @@ public class Claim2FActivity extends AppCompatActivity {
     }
 
     public void sendClaim(View view) {
+        sendButton.setEnabled(false);
         ClaimManager.getInstance().submitClaim(claim, this);
         finish();
     }

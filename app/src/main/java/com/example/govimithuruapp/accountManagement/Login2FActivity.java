@@ -66,9 +66,11 @@ public class Login2FActivity extends AppCompatActivity {
     public void checkLoginStep2F(View view) {
         String farmerRegNo = eRegNo.getText().toString();
         tLoginError.setVisibility(View.GONE);
+        bLogin.setEnabled(false);
+        bLogin.setText(getResources().getString(R.string.btnText_validating));
         boolean success = AuthController.getInstance().loginStep2(farmerRegNo);
         if (success) {
-            AuthController.getInstance().saveUser(this);
+            AuthController.getInstance().authenticateUser(this);
             LocaleManager.initializeUserLocale(this);
 
             Intent intent = new Intent(this, WelcomeActivity.class);
@@ -81,6 +83,8 @@ public class Login2FActivity extends AppCompatActivity {
 
     private void showError() {
         tLoginError.setVisibility(View.VISIBLE);
+        bLogin.setText(R.string.btnText_login);
+        bLogin.setEnabled(true);
         eRegNo.setText("");
     }
 

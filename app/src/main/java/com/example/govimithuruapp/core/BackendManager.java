@@ -27,6 +27,7 @@ import org.json.JSONObject;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 public class BackendManager {
@@ -51,13 +52,14 @@ public class BackendManager {
 
     private Context ctx;
 
-    private ConnectivityMonitor monitor;
+    private ArrayList<ConnectivityMonitor> monitors;
 
     // Singleton
     private static BackendManager instance;
 
     private BackendManager() {
         buffer = new RequestBuffer();
+        monitors = new ArrayList<>();
     }
 
     public static synchronized BackendManager getInstance(Context context) {
@@ -67,8 +69,18 @@ public class BackendManager {
     }
 
     private ConnectivityMonitor getMonitor() {
-        monitor = new ConnectivityMonitor(ctx.getApplicationContext());
+        ConnectivityMonitor monitor = new ConnectivityMonitor(ctx.getApplicationContext());
+        monitors.add(monitor);
         return monitor;
+    }
+
+    private void setConnectivityInMonitor(boolean c) {
+        Iterator<ConnectivityMonitor> monitorIterator = monitors.iterator();
+        while (monitorIterator.hasNext()) {
+            ConnectivityMonitor m = monitorIterator.next();
+            if (m.isAlive()) m.setConnected(c);
+            else monitorIterator.remove();
+        }
     }
 
     private RequestQueue getRequestQueue() {
@@ -95,33 +107,33 @@ public class BackendManager {
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
+                            Toast.makeText(ctx.getApplicationContext(), "Connected!", Toast.LENGTH_SHORT).show();
                             if (actionCode == ActionCodes.BUFFER_MONITOR) {
-                                getMonitor().setConnected(true);
+                                setConnectivityInMonitor(true);
                                 ArrayList<Request> bufferedRequests = buffer.fetchFromBuffer();
-                                System.out.println(bufferedRequests.size());
+                                System.out.println("Dispatched " + bufferedRequests.size() + " Requests");
                                 for (Request br : bufferedRequests) addToRequestQueue(br);
                             } else addToRequestQueue(request);
-                            Toast.makeText(ctx.getApplicationContext(), "Connected!", Toast.LENGTH_SHORT).show();
                         }
                     },
                     new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError volleyError) {
-                            switch (actionCode) {
-                                case ActionCodes.BUFFER_MONITOR:
-                                    getMonitor().setConnected(false);
-                                    break;
-                                case ActionCodes.ONLY_CHECKING:
-                                case ActionCodes.SUBMIT_CLAIM:
-                                case ActionCodes.SUBMIT_EVIDENCE:
-                                    addToRequestBuffer(request);
-                                    break;
-                                default:
-                                    System.out.println("Not Connected");
-                                    break;
-                            }
                             if (volleyError instanceof TimeoutError || volleyError instanceof NoConnectionError) {
                                 Toast.makeText(ctx.getApplicationContext(), "No Connection Available!", Toast.LENGTH_SHORT).show();
+                                switch (actionCode) {
+                                    case ActionCodes.BUFFER_MONITOR:
+                                        setConnectivityInMonitor(false);
+                                        break;
+                                    case ActionCodes.ONLY_CHECKING:
+                                    case ActionCodes.SUBMIT_CLAIM:
+                                    case ActionCodes.SUBMIT_EVIDENCE:
+                                        addToRequestBuffer(request);
+                                        break;
+                                    default:
+                                        System.out.println("Not Connected");
+                                        break;
+                                }
                             } else if (volleyError instanceof AuthFailureError) {
                                 Toast.makeText(ctx.getApplicationContext(), "Authentication Error!", Toast.LENGTH_SHORT).show();
                             } else if (volleyError instanceof ServerError) {
@@ -147,7 +159,7 @@ public class BackendManager {
                     addToRequestBuffer(request);
                     break;
                 default:
-                    System.out.println("Not Connected");
+                    System.out.println("Turned Off");
                     break;
             }
             if (actionCode != ActionCodes.BUFFER_MONITOR)

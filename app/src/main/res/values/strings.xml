@@ -90,4 +90,6 @@
     <string name="txt_noMoreEvidences">You have submitted the maximum allowed number of evidences.</string>
     <string name="txt_finalizeClaim">Finalizing Claim</string>
     <string name="txt_sendClaim">Send Claim</string>
+    <string name="btnText_submitting">Submitting...</string>
+    <string name="btnText_validating">Validating...</string>
 </resources>

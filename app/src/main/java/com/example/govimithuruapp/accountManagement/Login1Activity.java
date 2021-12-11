@@ -29,7 +29,7 @@ public class Login1Activity extends AppCompatActivity {
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-//            tLoginError.setVisibility(View.GONE);
+
         }
 
         @Override
@@ -45,6 +45,7 @@ public class Login1Activity extends AppCompatActivity {
 
         eNIC = (EditText) findViewById(R.id.ED_nic);
         bSubmit = (Button) findViewById(R.id.BT_login2);
+        bSubmit.setEnabled(true);
         bLocale = (Button) findViewById(R.id.BT_toggleLan1);
         tLoginError = (TextView) findViewById(R.id.TX_loginError1);
 
@@ -54,6 +55,8 @@ public class Login1Activity extends AppCompatActivity {
 
     public void checkLoginStep1(View view) {
         String nic = eNIC.getText().toString();
+        bSubmit.setEnabled(false);
+        bSubmit.setText(getResources().getString(R.string.btnText_submitting));
         AuthController.getInstance().loginStep1(this, nic);
     }
 
@@ -72,6 +75,8 @@ public class Login1Activity extends AppCompatActivity {
     }
 
     private void showError() {
+        bSubmit.setText(getResources().getString(R.string.btnText_submit));
+        bSubmit.setEnabled(true);
         tLoginError.setVisibility(View.VISIBLE);
         eNIC.setText("");
     }
@@ -92,5 +97,4 @@ public class Login1Activity extends AppCompatActivity {
         LocaleManager.toggleLocale(this);
         setView();
     }
-
 }

@@ -17,6 +17,8 @@ public class AuthController {
     private static User currentUser;
     private static final String USER_DATA_FILE = "userdata.ser";
 
+    private static final User anonymousUser = new User('u', 'e');
+
     public static final String USER_URL = "users/";
 
     // Singleton
@@ -58,7 +60,8 @@ public class AuthController {
             ois.close();
             fis.close();
         } catch (Exception e) {
-            currentUser = new User('u', 'e');
+            currentUser = anonymousUser;
+            currentUser.setAuthenticated(false);
             saveUser(context);
         }
         return currentUser;
@@ -88,9 +91,9 @@ public class AuthController {
     public void loginStep1(Context context, String nic) {
         if (currentUser == null) getSavedUser(context);
         // Case 1: Logging in from locally available user data (userType == 'f' or 'a')
-        if (currentUser.getUserType() != 'u') {
+        if (currentUser.getNIC().equals(nic)) {
             Login1Activity activity = (Login1Activity) context;
-            activity.setResultOfLoginStep1(nic.equals(currentUser.getNIC()));
+            activity.setResultOfLoginStep1(true);
         }
         // Case 2: Logging in from remote server
         else {
@@ -101,6 +104,16 @@ public class AuthController {
 
     public boolean loginStep2(String regNo) {
         return regNo.equals(currentUser.getRegNo());
+    }
+
+    public void authenticateUser(Context context) {
+        currentUser.setAuthenticated(true);
+        saveUser(context);
+    }
+
+    public void logoutUser(Context context) {
+        currentUser.setAuthenticated(false);
+        saveUser(context);
     }
 
 }

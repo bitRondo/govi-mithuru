@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
         User user = AuthController.getInstance().getSavedUser(this);
         Intent intent;
-        if ((user != null) && (user.getUserType() != 'u')) {
+        if (user.isAuthenticated()) {
             LocaleManager.initializeUserLocale(this);
             intent = new Intent(this, WelcomeActivity.class);
         } else {
