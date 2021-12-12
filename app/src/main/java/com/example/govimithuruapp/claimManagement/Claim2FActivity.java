@@ -12,7 +12,6 @@ import android.widget.CompoundButton;
 
 public class Claim2FActivity extends AppCompatActivity {
 
-    private Claim claim;
     private CheckBox checkBox;
     private Button sendButton;
 
@@ -24,8 +23,6 @@ public class Claim2FActivity extends AppCompatActivity {
         checkBox = (CheckBox) findViewById(R.id.CHECK_pledge);
         sendButton = (Button) findViewById(R.id.BT_sendClaim);
 
-        claim = ClaimManager.getInstance().getCurrentClaim();
-
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -34,9 +31,11 @@ public class Claim2FActivity extends AppCompatActivity {
         });
     }
 
-    public void sendClaim(View view) {
+    public synchronized void sendClaim(View view) {
         sendButton.setEnabled(false);
-        ClaimManager.getInstance().submitClaim(claim, this);
+        sendButton.setText(getResources().getString(R.string.btnText_submitting));
+        Intent intent = new Intent(this, Claim3FActivity.class);
+        startActivity(intent);
         finish();
     }
 }

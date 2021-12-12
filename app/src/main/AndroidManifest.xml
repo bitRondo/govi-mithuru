@@ -21,7 +21,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.GoviMithuruApp">
-        <activity android:name=".claimManagement.Claim2FActivity"></activity>
+        <activity android:name=".claimManagement.Claim3FActivity"></activity>
+        <activity android:name=".claimManagement.Claim2FActivity" />
         <activity android:name=".claimManagement.Claim1FActivity" />
         <activity android:name=".claimManagement.EvidenceFActivity" />
         <activity android:name=".accountManagement.WelcomeActivity" />

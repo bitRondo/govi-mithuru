@@ -69,9 +69,11 @@
     <string name="txt_noClaims">ඉල්ලුම්පත් නොමැත</string>
     <string name="txt_maxAllowed">යෙදිය හැකි උපරිම සාක්ෂි ගණන %1$dකි. ඔබට තව %2$dක් යෙදිය හැක.</string>
     <string name="txt_noMoreEvidences">ඔබ උපරිම සාක්ෂි ගණන යොදා ඇත.</string>
-    <string name="txt_finalizeClaim">ඉල්ලුම්පත සම්පූර්ණ කිරීීම</string>
+    <string name="txt_finalizeClaim">ඉල්ලුම්පත සම්පූර්ණ කිරීම</string>
     <string name="txt_sendClaim">ඉල්ලුම්පත යවන්න</string>
     <string name="btnText_submitting">යොමු වෙයි...</string>
     <string name="btnText_validating">පරීක්ෂා කෙරෙයි...</string>
     <string name="txt_notification">අන්තර්ජාල සම්බන්ධතාව සොයයි</string>
+    <string name="txt_submittingClaim">ඉල්ලුම්පත යැවෙමින් පවතියි.</string>
+    <string name="txt_pleaseWait">කරුණාකර රැඳී සිටින්න...</string>
 </resources>
