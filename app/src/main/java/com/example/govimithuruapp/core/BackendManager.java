@@ -1,7 +1,10 @@
 package com.example.govimithuruapp.core;
 
 import android.content.Context;
+import android.os.Build;
 import android.widget.Toast;
+
+import androidx.annotation.RequiresApi;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -112,6 +115,7 @@ public class BackendManager {
                                 setConnectivityInMonitor(true);
                                 ArrayList<Request> bufferedRequests = buffer.fetchFromBuffer();
                                 System.out.println("Dispatched " + bufferedRequests.size() + " Requests");
+                                NotificationController.getInstance(ctx).removeNotification();
                                 for (Request br : bufferedRequests) addToRequestQueue(br);
                             } else addToRequestQueue(request);
                         }
@@ -125,10 +129,11 @@ public class BackendManager {
                                     case ActionCodes.BUFFER_MONITOR:
                                         setConnectivityInMonitor(false);
                                         break;
-                                    case ActionCodes.ONLY_CHECKING:
+//                                    case ActionCodes.ONLY_CHECKING:
                                     case ActionCodes.SUBMIT_CLAIM:
                                     case ActionCodes.SUBMIT_EVIDENCE:
                                         addToRequestBuffer(request);
+                                        NotificationController.getInstance(ctx).createNotification();
                                         break;
                                     default:
                                         System.out.println("Not Connected");
@@ -157,6 +162,7 @@ public class BackendManager {
                 case ActionCodes.SUBMIT_CLAIM:
                 case ActionCodes.SUBMIT_EVIDENCE:
                     addToRequestBuffer(request);
+                    NotificationController.getInstance(ctx).createNotification();
                     break;
                 default:
                     System.out.println("Turned Off");

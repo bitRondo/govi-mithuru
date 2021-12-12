@@ -91,7 +91,7 @@ public class AuthController {
     public void loginStep1(Context context, String nic) {
         if (currentUser == null) getSavedUser(context);
         // Case 1: Logging in from locally available user data (userType == 'f' or 'a')
-        if (currentUser.getNIC().equals(nic)) {
+        if (currentUser.getUserType() != 'u' && currentUser.getNIC().equals(nic)) {
             Login1Activity activity = (Login1Activity) context;
             activity.setResultOfLoginStep1(true);
         }
