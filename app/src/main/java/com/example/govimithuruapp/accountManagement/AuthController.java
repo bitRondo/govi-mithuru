@@ -18,6 +18,7 @@ public class AuthController {
     private static final String USER_DATA_FILE = "userdata.ser";
 
     private static final User anonymousUser = new User('u', 'e');
+    private static User possibleCurrentUser;
 
     public static final String USER_URL = "users/";
 
@@ -52,6 +53,8 @@ public class AuthController {
         return currentUser;
     }
 
+    public User getPossibleCurrentUser() { return possibleCurrentUser; }
+
     public User getSavedUser(Context context) {
         try {
             FileInputStream fis = context.openFileInput(USER_DATA_FILE);
@@ -70,7 +73,7 @@ public class AuthController {
     public void completeLoginStep1(JSONObject o, Context context, boolean success) {
         if (success) {
             try {
-                currentUser = new User(
+                possibleCurrentUser = new User(
                         User.mapUserType(Integer.parseInt(o.getString("userType"))),
                         o.getString("agriServiceCenter"),
                         o.getString("gramaNiladhariDiv"),
@@ -89,9 +92,10 @@ public class AuthController {
     }
 
     public void loginStep1(Context context, String nic) {
-        if (currentUser == null) getSavedUser(context);
+        possibleCurrentUser = getSavedUser(context);
+        System.out.println(possibleCurrentUser.getUserType());
         // Case 1: Logging in from locally available user data (userType == 'f' or 'a')
-        if (currentUser.getUserType() != 'u' && currentUser.getNIC().equals(nic)) {
+        if (possibleCurrentUser.getUserType() != 'u' && possibleCurrentUser.getNIC().equals(nic)) {
             Login1Activity activity = (Login1Activity) context;
             activity.setResultOfLoginStep1(true);
         }
@@ -103,10 +107,11 @@ public class AuthController {
     }
 
     public boolean loginStep2(String regNo) {
-        return regNo.equals(currentUser.getRegNo());
+        return regNo.equals(possibleCurrentUser.getRegNo());
     }
 
     public void authenticateUser(Context context) {
+        currentUser = possibleCurrentUser;
         currentUser.setAuthenticated(true);
         saveUser(context);
     }

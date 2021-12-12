@@ -62,11 +62,11 @@ public class Login1Activity extends AppCompatActivity {
 
     public void setResultOfLoginStep1(boolean success) {
         if (success) {
-            char userType = AuthController.getInstance().getCurrentUser().getUserType();
+            char userType = AuthController.getInstance().getPossibleCurrentUser().getUserType();
             Intent intent;
             if (userType == 'f') intent = new Intent(this, Login2FActivity.class);
             else intent = new Intent(this, Login2AActivity.class);
-            intent.putExtra(EXTRA_NIC, AuthController.getInstance().getCurrentUser().getNIC());
+            intent.putExtra(EXTRA_NIC, AuthController.getInstance().getPossibleCurrentUser().getNIC());
             startActivity(intent);
             finish();
         } else {
