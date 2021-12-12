@@ -126,6 +126,9 @@ public class BackendManager {
                             if (volleyError instanceof TimeoutError || volleyError instanceof NoConnectionError) {
                                 Toast.makeText(ctx.getApplicationContext(), "No Connection Available!", Toast.LENGTH_SHORT).show();
                                 switch (actionCode) {
+                                    case ActionCodes.LOGIN_STEP_1:
+                                        AuthController.getInstance().completeLoginStep1(null, ctx, false);
+                                        break;
                                     case ActionCodes.BUFFER_MONITOR:
                                         setConnectivityInMonitor(false);
                                         break;
@@ -159,6 +162,9 @@ public class BackendManager {
             addToRequestQueue(testRequest);
         } else {
             switch (actionCode) {
+                case ActionCodes.LOGIN_STEP_1:
+                    AuthController.getInstance().completeLoginStep1(null, ctx, false);
+                    break;
                 case ActionCodes.SUBMIT_CLAIM:
                 case ActionCodes.SUBMIT_EVIDENCE:
                     addToRequestBuffer(request);
