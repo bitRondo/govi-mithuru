@@ -76,4 +76,5 @@
     <string name="txt_notification">අන්තර්ජාල සම්බන්ධතාව සොයයි</string>
     <string name="txt_submittingClaim">ඉල්ලුම්පත යැවෙමින් පවතියි.</string>
     <string name="txt_pleaseWait">කරුණාකර රැඳී සිටින්න...</string>
+    <string name="txt_clickCamera">ඡායාරූප ගැනීමට කැමරා රූපය ඔබන්න.</string>
 </resources>

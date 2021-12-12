@@ -95,4 +95,5 @@
     <string name="txt_notification">Fetching internet connection</string>
     <string name="txt_submittingClaim">Submitting Claim.</string>
     <string name="txt_pleaseWait">Please Wait...</string>
+    <string name="txt_clickCamera">Click on the Camera icon to take photos.</string>
 </resources>

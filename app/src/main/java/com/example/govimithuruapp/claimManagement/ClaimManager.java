@@ -5,20 +5,21 @@ import android.content.Context;
 import com.example.govimithuruapp.accountManagement.AuthController;
 import com.example.govimithuruapp.core.UtilityManager;
 
+import java.util.ArrayList;
 import java.util.PriorityQueue;
 
 public class ClaimManager {
     public static final int PAD_SIZE = 4;
     public static final String PAD_CHAR = "0";
 
-    private PriorityQueue<Claim> submissionQueue;
+    private ArrayList<Claim> submissionQueue;
     private Claim currentClaim;
 
     // Singleton
     private static ClaimManager instance;
 
     private ClaimManager() {
-        submissionQueue = new PriorityQueue<>();
+        submissionQueue = new ArrayList<>();
     }
 
     public static ClaimManager getInstance() {
@@ -49,7 +50,8 @@ public class ClaimManager {
     }
 
     public void saveClaimInUser(Context context) {
-        Claim claim = submissionQueue.poll();
+        Claim claim = null;
+        if (!submissionQueue.isEmpty()) claim = submissionQueue.remove(0);
         if (claim != null) {
             claim.setState(State.SUBMITTED.getValue());
             AuthController.getInstance().getCurrentUser().addClaim(claim.getClaimID(), claim);

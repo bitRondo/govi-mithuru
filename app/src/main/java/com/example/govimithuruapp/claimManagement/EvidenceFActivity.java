@@ -135,7 +135,10 @@ public class EvidenceFActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
             Location loc = LocationController.getInstance().getLocation();
-            Evidence evidence = new Evidence(currentEvidenceID, new Date(), loc.getLatitude(), loc.getLongitude(), currentPhotoPath);
+            Evidence evidence;
+            if (loc != null)
+                evidence = new Evidence(currentEvidenceID, new Date(), loc.getLatitude(), loc.getLongitude(), currentPhotoPath);
+            else evidence = new Evidence(currentEvidenceID, new Date(), 0, 0, currentPhotoPath);
             claim.addEvidence(evidence);
             evidenceCounter = maxEvidenceCounter;
 
@@ -225,7 +228,7 @@ public class EvidenceFActivity extends AppCompatActivity {
         }
         maxAllowed.setText(getResources().getString(R.string.txt_maxAllowed, MAX_EVIDENCES_ALLOWED,
                 (MAX_EVIDENCES_ALLOWED-maxEvidenceCounter-1)));
-        if (maxEvidenceCounter == -1) maxAllowed.setText("");
+        if (maxEvidenceCounter == -1) maxAllowed.setText(getResources().getString(R.string.txt_clickCamera));
         if (maxEvidenceCounter == (MAX_EVIDENCES_ALLOWED-1)) {
             cameraBtn.setVisibility(View.INVISIBLE);
             maxAllowed.setText(getResources().getString(R.string.txt_noMoreEvidences));
@@ -259,7 +262,7 @@ public class EvidenceFActivity extends AppCompatActivity {
         if (evidenceCounter >= 0)
             claim.getEvidence(evidenceCounter).setDescription(descText.getText().toString());
         ClaimManager.getInstance().setCurrentClaim(claim);
-        if (viewing) data.putExtra(VIEWING_CLAIM, 1);
+        data.putExtra(VIEWING_CLAIM, 1);
         setResult(RESULT_OK, data);
         super.finish();
     }

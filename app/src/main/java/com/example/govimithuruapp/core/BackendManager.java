@@ -5,6 +5,7 @@ import android.os.Build;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -110,7 +111,7 @@ public class BackendManager {
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
-                            Toast.makeText(ctx.getApplicationContext(), "Connected!", Toast.LENGTH_SHORT).show();
+                            showToast("Connected!");
                             if (actionCode == ActionCodes.BUFFER_MONITOR) {
                                 setConnectivityInMonitor(true);
                                 ArrayList<Request> bufferedRequests = buffer.fetchFromBuffer();
@@ -124,7 +125,7 @@ public class BackendManager {
                         @Override
                         public void onErrorResponse(VolleyError volleyError) {
                             if (volleyError instanceof TimeoutError || volleyError instanceof NoConnectionError) {
-                                Toast.makeText(ctx.getApplicationContext(), "No Connection Available!", Toast.LENGTH_SHORT).show();
+                                showToast("No Connection Available!");
                                 switch (actionCode) {
                                     case ActionCodes.LOGIN_STEP_1:
                                         AuthController.getInstance().completeLoginStep1(null, ctx, false);
@@ -143,13 +144,13 @@ public class BackendManager {
                                         break;
                                 }
                             } else if (volleyError instanceof AuthFailureError) {
-                                Toast.makeText(ctx.getApplicationContext(), "Authentication Error!", Toast.LENGTH_SHORT).show();
+                                showToast("Authentication Error!");
                             } else if (volleyError instanceof ServerError) {
-                                Toast.makeText(ctx.getApplicationContext(), "Server Error!", Toast.LENGTH_SHORT).show();
+                                showToast("Server Error!");
                             } else if (volleyError instanceof NetworkError) {
-                                Toast.makeText(ctx.getApplicationContext(), "Network Error!", Toast.LENGTH_SHORT).show();
+                                showToast("Network Error!");
                             } else if (volleyError instanceof ParseError) {
-                                Toast.makeText(ctx.getApplicationContext(), "Parse Error!", Toast.LENGTH_SHORT).show();
+                                showToast("Parse Error!");
                             }
                         }
                     }) {
@@ -174,8 +175,8 @@ public class BackendManager {
                     System.out.println("Turned Off");
                     break;
             }
-            if (actionCode != ActionCodes.BUFFER_MONITOR)
-                Toast.makeText(ctx.getApplicationContext(), "Internet Connection is Turned Off!", Toast.LENGTH_SHORT).show();
+            showToast("Internet Connection is Turned Off!");
+
         }
     }
 
@@ -293,5 +294,17 @@ public class BackendManager {
         }
         request.setRetryPolicy(new DefaultRetryPolicy(5000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         verifyInternetConnectivity(request, actionCode);
+    }
+
+    private void showToast(String text) {
+        if (ctx instanceof AppCompatActivity) {
+            AppCompatActivity activity = (AppCompatActivity) ctx;
+            activity.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(ctx.getApplicationContext(), text, Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 }
