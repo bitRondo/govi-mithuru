@@ -31,6 +31,8 @@ urlpatterns = [
     path('claims/<str:id>', ClaimRetrieveUpdateDelete.as_view(), name='claim_object'),
     path('evidences/', EvidenceModelViewSet.as_view({'get':'list', 'post':'create'}), name='evidences'),
     path('evidences/<str:id>', EvidenceModelViewSet.as_view({'get':'retrieve', 'delete':'destroy'}), name='evidence_object'),
+    path('allClaims/', allClaims, name='all_claims'),
+    path('viewClaim/<str:claimID>', viewClaim, name='view_claim'),
 ]
 
 if settings.DEBUG:

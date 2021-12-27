@@ -1,4 +1,5 @@
 from django.http.response import Http404, HttpResponse
+from django.shortcuts import redirect
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
@@ -8,7 +9,7 @@ from accountManagement.models import User
 from accountManagement.serializers import UserSerializer
 
 def index(request):
-    return HttpResponse("Welcome to GoviMithuru Backend!")
+    return redirect('all_claims')
 
 class UserListCreate(ListCreateAPIView):
     queryset = User.objects.all()

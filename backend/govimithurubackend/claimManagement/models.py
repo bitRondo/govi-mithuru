@@ -4,6 +4,31 @@ from claimManagement.models import Claim
 
 from django.db import models
 
+CLAIM_STATE_TEXT = {
+    0: 'SUBMISSION PENDING',
+    1: 'SUBMITTED',
+    2: 'IN REVIEW',
+    3: 'RESUBMISSION REQUESTED',
+    4: 'ACCEPTED',
+    5: 'REJECTED',
+}
+
+DAMAGE_CAUSE_TEXT = {
+    0: 'FLOOD',
+    1: 'DROUGHT',
+    2: 'ELEPHANTS',
+    3: 'FIRE',
+    4: 'DISEASES/PESTS',
+    5: 'OTHER',
+}
+
+DAMAGE_LEVEL_TEXT = {
+    0: 'COMPLETE DAMAGE',
+    1: 'PARTIAL DAMAGE',
+    2: 'MINOR DAMAGE',
+}
+
+
 class Claim(models.Model):
     claimID = models.CharField(
         'Claim ID',
@@ -95,7 +120,7 @@ class Claim(models.Model):
         (0, 'FLOOD'),
         (1, 'DROUGHT'),
         (2, 'ELEPHANTS'),
-        (3,'FIRE'),
+        (3, 'FIRE'),
         (4, 'DISEASES_PESTS'),
         (5, 'OTHER'),
     ]
@@ -211,8 +236,34 @@ class Claim(models.Model):
         default=1,
     )
 
+    @property
+    def getStateText(self):
+        return CLAIM_STATE_TEXT[self.state]
+
+    @property
+    def getCauseText(self):
+        return DAMAGE_CAUSE_TEXT[self.damageCause]
+
+    @property
+    def getLevelText(self):
+        return DAMAGE_LEVEL_TEXT[self.damageLevel]
+
+    @property
+    def hasGramaNiladhariDiv(self):
+        return len(self.gramaNiladhariDiv) > 0
+
+    @property
+    def hasAddress(self):
+        return len(self.address) > 0
+
+    @property
+    def hasLandName(self):
+        return len(self.landName) > 0
+
+
 def getImageFilePath(instance, filename):
     return f"images/{instance.evidenceID}.jpg"
+
 
 class Evidence(models.Model):
 
@@ -245,3 +296,7 @@ class Evidence(models.Model):
         'Evidence Image',
         upload_to=getImageFilePath
     )
+
+    @property
+    def hasDescription(self):
+        return len(self.description) > 0

@@ -63,7 +63,7 @@ public class NotificationController {
                     .setContentText(context.getResources().getString(R.string.txt_notification))
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                     // Prevent user from dismissing, stays forever if the user kills the app
-//                    .setOngoing(true)
+                    .setOngoing(true)
                     // Set the intent that will fire when the user taps the notification
                     .setContentIntent(pendingIntent);
 

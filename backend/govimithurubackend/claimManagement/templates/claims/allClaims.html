@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Govi Mithuru Backend</title>
+</head>
+<body>
+    <h1>Welcome to Govi Mithuru Backend!</h1>
+    <hr>
+    <h2>Claims</h2>
+    {% for c in claims %}
+        <p><a href="{% url 'view_claim' c.claimID %}">{{ c.topic }}</a></p>
+    {% endfor %}
+</body>
+</html>

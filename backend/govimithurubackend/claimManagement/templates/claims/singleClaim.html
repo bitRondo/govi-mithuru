@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ claim.topic }}</title>
+
+    <script>
+        var mapDivs = [];
+        var locations = [];
+
+        {% for eID, e in evidences.items %}
+            mapDivs.push("map_".concat('{{ eID }}'));
+            locations.push({ lat: {{ e.latitude }}, lng: {{ e.longitude }}});
+        {% endfor %}
+
+        function initMaps() {
+            for (i=0; i < mapDivs.length; i++) {
+                var map = new google.maps.Map(
+                    document.getElementById(mapDivs[i]), {
+                        zoom: 10,
+                        center: locations[i],
+                    });
+                var marker = new google.maps.Marker({
+                    position: locations[i],
+                    map: map,
+                });
+            }
+        }
+
+    </script>
+</head>
+
+<body>
+    <h1>{{ claim.topic }}</h1>
+    <p><b>State: </b>{{ claim.getStateText }}</p>
+
+    <h2>Details of the Farmer</h2>
+    <hr>
+    <p><b>Agricultural Service Center: </b>{{ claim.agriServiceCenter }}</p>
+    {% if claim.hasGramaNiladhariDiv %}
+    <p><b>Grama Niladhari Division: </b>{{ claim.gramaNiladhariDiv }}</p>
+    {% endif %}
+    <p><b>Registration Number: </b>{{ claim.farmerRegNo }}</p>
+    <p><b>Name: </b>{{ claim.farmerName }}</p>
+    <p><b>National Identity Card Numer: </b>{{ claim.farmerNIC }}</p>
+    <p><b>Phone: </b>{{ claim.farmerPhone }}</p>
+    {% if claim.hasAddress %}
+    <p><b>Address: </b>{{ claim.address }}</p>
+    {% endif %}
+
+    <h2>Details of the Land</h2>
+    <hr>
+    <p><b>Registration Number: </b>{{ claim.landRegNum }}</p>
+    {% if claim.hasLandName %}
+    <p><b>Land Name: </b>{{ claim.landName }}</p>
+    {% endif %}
+    <p><b>Area: </b>{{ claim.landArea }} hectares</p>
+
+    <h2>Details of the Cultivation</h2>
+    <hr>
+    <p><b>Crop: </b>{{ claim.crop }}</p>
+    <p><b>Cultivated Area: </b>{{ claim.cultivatedArea }}</p>
+    {% if claim.cultivatedDate %}
+    <p><b>Cultivated Date: </b>{{ claim.cultivatedDate|date:"Y-m-d" }}</p>
+    {% endif %}
+    {% if claim.timeToHarvest %}
+    <p><b>Time to yield harvest: </b>{{ claim.timeToHarvest }}</p>
+    {% endif %}
+
+    <h2>Details of the Damage</h2>
+    <hr>
+    <p><b>Date of damage: </b>{{ claim.damageDate|date:"Y-m-d" }}</p>
+    <p><b>Cause: </b>{{ claim.getCauseText }}</p>
+    {% if claim.damageCause > 4 %}
+    <p><b>Descrition of the cause: </b>{{ claim.otherCause }}</p>
+    {% endif %}
+    <p><b>Area of Damage: </b>{{ claim.damageArea }} hectares</p>
+    <p><b>Damage Level: </b>{{ claim.getLevelText }}</p>
+
+    <h2>Details of the Compensation</h2>
+    <hr>
+    <p><b>Amount requested: </b>{{ claim.compensation|floatformat:2 }} LKR</p>
+    <p><b>Bank Account Number: </b>{{ claim.bankAccountNo }}</p>
+    <p><b>Bank: </b>{{ claim.bank }}</p>
+    <p><b>Branch: </b>{{ claim.branch }}</p>
+
+    <h2>Evidences</h2>
+    <hr>
+    {% for eID, e in evidences.items %}
+    <div style="border: solid; padding: 10px; width: fit-content; margin-bottom: 10px;">
+        <img src="{{ e.image.url }}" alt="{{ e.image.url }}" style="object-fit:contain; width:600px; height:600px;">
+        <p><b>Date: </b>{{ e.date|date:"Y-m-d" }}</p>
+        {% if e.hasDescription %}
+        <p><b>Description: </b>{{ e.description }}</p>
+        {% endif %}
+        <div id="map_{{ eID }}" style="height: 400px; width: 400px;"></div>
+        <p><b>Latitude: </b>{{ e.latitude }}, <b>Longitude: </b>{{ e.longitude }}</p>
+    </div>
+    {% endfor %}
+
+</body>
+
+<script async
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCR5IczpRg5W4R73iD3RkYsN4l3UoQ9aSc&callback=initMaps">
+</script>
+
+</html>

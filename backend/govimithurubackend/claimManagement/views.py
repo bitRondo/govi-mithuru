@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.viewsets import ModelViewSet
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 
 from claimManagement.models import Claim, Evidence
 from claimManagement.serializers import ClaimSerializer, EvidenceSerializer
@@ -75,3 +75,27 @@ class EvidenceModelViewSet(ModelViewSet):
         evidence = self.get_object(id)
         evidence.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+def allClaims(request):
+    claims = Claim.objects.all()
+    context = {'claims':claims}
+    return render(request, 'claims/allClaims.html', context)
+
+def viewClaim(request, claimID):
+    claim = Claim.objects.get(claimID=claimID)
+
+    eIDs = []
+    for c in range(claim.evidenceCount):
+        id = f"{c+1}"
+        for i in range(len(id), 4):
+            id = "0" + id
+        id = f"{claim.claimID}_{id}"
+        eIDs.append(id)
+
+    evidences = {}
+    for e in eIDs:
+        evidences[e] = Evidence.objects.get(evidenceID=e)
+        print(evidences[e].image.url)
+
+    context = {'claim':claim, 'evidences':evidences}
+    return render(request, 'claims/singleClaim.html', context)
